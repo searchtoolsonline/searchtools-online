@@ -1,831 +1,128 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Tools Online - Your Daily Tools, All in One Place</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-purple: #7c3aed;
-            --primary-pink: #ec4899;
-            --light-purple: #a78bfa;
-            --light-pink: #f9a8d4;
-            --dark-purple: #5b21b6;
-            --dark-pink: #be185d;
-            --blue-accent: #3b82f6;
-            --light-blue: #93c5fd;
-            --bg-light: #faf5ff;
-            --bg-card: #ffffff;
-            --text-dark: #1f2937;
-            --text-light: #6b7280;
-            --shadow: 0 4px 20px rgba(124, 58, 237, 0.1);
-            --shadow-hover: 0 10px 30px rgba(124, 58, 237, 0.2);
-            --radius: 12px;
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            color: var(--text-dark);
-            background-color: var(--bg-light);
-            line-height: 1.6;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header Styles */
-        header {
-            background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: var(--shadow);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo i {
-            margin-right: 10px;
-            font-size: 1.9rem;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 30px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-            padding: 8px 0;
-            position: relative;
-        }
-
-        nav ul li a:hover {
-            color: var(--light-blue);
-        }
-
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background: var(--light-blue);
-            bottom: 0;
-            left: 0;
-            transition: var(--transition);
-        }
-
-        nav ul li a:hover::after {
-            width: 100%;
-        }
-
-        .contact-email {
-            color: white;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-        }
-
-        .contact-email i {
-            margin-right: 8px;
-        }
-
-        /* Mobile menu toggle */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 100px 0;
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(236, 72, 153, 0.05));
-            text-align: center;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 3.2rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-light);
-            margin-bottom: 40px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
-            color: white;
-            padding: 16px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-            border: none;
-            cursor: pointer;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .tool-icons {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-top: 60px;
-        }
-
-        .tool-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: var(--radius);
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            color: var(--primary-purple);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        .tool-icon:hover {
-            transform: translateY(-10px);
-            background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
-            color: white;
-        }
-
-        /* Search Bar */
-        .search-section {
-            padding: 40px 0;
-            background-color: white;
-            margin: 0 auto 40px;
-            max-width: 900px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            transform: translateY(-30px);
-            position: relative;
-            z-index: 10;
-        }
-
-        .search-container {
-            padding: 0 30px;
-        }
-
-        .search-bar {
-            display: flex;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .search-input {
-            flex: 1;
-            padding: 18px 25px;
-            border: 2px solid #e5e7eb;
-            border-radius: 50px 0 0 50px;
-            font-size: 1.1rem;
-            transition: var(--transition);
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary-purple);
-        }
-
-        .search-button {
-            background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
-            color: white;
-            border: none;
-            border-radius: 0 50px 50px 0;
-            padding: 0 35px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: var(--transition);
-        }
-
-        .search-button:hover {
-            background: linear-gradient(135deg, var(--dark-purple), var(--dark-pink));
-        }
-
-        /* Tool Sections */
-        .tool-section {
-            margin-bottom: 80px;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .section-icon {
-            font-size: 2rem;
-            margin-right: 15px;
-            background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .section-header h2 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-
-        .section-description {
-            color: var(--text-light);
-            margin-bottom: 40px;
-            max-width: 700px;
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .tool-card {
-            background-color: var(--bg-card);
-            border-radius: var(--radius);
-            padding: 25px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .tool-icon-small {
-            font-size: 1.8rem;
-            color: var(--blue-accent);
-            margin-bottom: 15px;
-        }
-
-        .tool-card h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--text-dark);
-        }
-
-        .tool-card p {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-            flex-grow: 1;
-        }
-
-        .tool-button {
-            display: inline-block;
-            background-color: var(--blue-accent);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 500;
-            text-align: center;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-            width: fit-content;
-        }
-
-        .tool-button:hover {
-            background-color: #2563eb;
-            transform: translateY(-3px);
-        }
-
-        /* Footer */
-        footer {
-            background: linear-gradient(135deg, var(--dark-purple), var(--dark-pink));
-            color: white;
-            padding: 60px 0 30px;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-bottom: 40px;
-        }
-
-        .footer-logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-
-        .footer-logo i {
-            margin-right: 10px;
-        }
-
-        .footer-tagline {
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 300px;
-        }
-
-        .footer-contact {
-            margin-top: 15px;
-        }
-
-        .footer-email {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .footer-email i {
-            margin-right: 10px;
-        }
-
-        .footer-links {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            margin-bottom: 12px;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 2.7rem;
-            }
-            
-            .tools-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-        }
-
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            nav ul {
-                position: fixed;
-                top: 80px;
-                left: 0;
-                width: 100%;
-                background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
-                flex-direction: column;
-                align-items: center;
-                padding: 20px 0;
-                box-shadow: var(--shadow);
-                transform: translateY(-100%);
-                opacity: 0;
-                transition: var(--transition);
-                z-index: 99;
-            }
-            
-            nav ul.active {
-                transform: translateY(0);
-                opacity: 1;
-            }
-            
-            nav ul li {
-                margin: 15px 0;
-            }
-            
-            .contact-email {
-                display: none;
-            }
-            
-            .hero {
-                padding: 70px 0;
-            }
-            
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .search-section {
-                margin: 0 20px 40px;
-                padding: 30px 0;
-            }
-            
-            .search-container {
-                padding: 0 20px;
-            }
-            
-            .search-bar {
-                flex-direction: column;
-            }
-            
-            .search-input {
-                border-radius: 50px;
-                margin-bottom: 15px;
-            }
-            
-            .search-button {
-                border-radius: 50px;
-                padding: 15px;
-            }
-            
-            .footer-content {
-                flex-direction: column;
-            }
-            
-            .footer-links {
-                margin-top: 30px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .hero h1 {
-                font-size: 1.9rem;
-            }
-            
-            .tool-icons {
-                gap: 15px;
-            }
-            
-            .tool-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 1.8rem;
-            }
-            
-            .section-header h2 {
-                font-size: 1.8rem;
-            }
-            
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <div class="container header-content">
-            <a href="#" class="logo">
-                <i class="fas fa-tools"></i>
-                Tools Wonder
-            </a>
-            
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
-            
-            <nav>
-                <ul id="navMenu">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Tools</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </nav>
-            
-            <div class="contact-email">
-                <i class="fas fa-envelope"></i>
-                searchtoolsonline@gmail.com
-            </div>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container hero-content">
-            <h1>Your Daily Tools, All in One Place</h1>
-            <p>Convert, calculate, compress, and simplify your everyday tasks — fast and free.</p>
-            <a href="#" class="cta-button">Explore Tools</a>
-            
-            <div class="tool-icons">
-                <div class="tool-icon">
-                    <i class="fas fa-image"></i>
-                </div>
-                <div class="tool-icon">
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                <div class="tool-icon">
-                    <i class="fas fa-calculator"></i>
-                </div>
-                <div class="tool-icon">
-                    <i class="fas fa-code"></i>
-                </div>
-                <div class="tool-icon">
-                    <i class="fas fa-video"></i>
-                </div>
-                <div class="tool-icon">
-                    <i class="fas fa-font"></i>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Search Bar -->
-    <section class="search-section">
-        <div class="container search-container">
-            <div class="search-bar">
-                <input type="text" class="search-input" placeholder="Search a tool...">
-                <button class="search-button">Search</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Main Content -->
-    <main class="container">
-        <!-- Image Tools Section -->
-        <section class="tool-section">
-            <div class="section-header">
-                <div class="section-icon">🖼</div>
-                <h2>Image Tools</h2>
-            </div>
-            <p class="section-description">Resize, convert, edit, and enhance your images with our comprehensive suite of image tools.</p>
-            
-            <div class="tools-grid" id="image-tools">
-                <!-- Image tools will be populated by JavaScript -->
-            </div>
-        </section>
-
-        <!-- PDF Tools Section -->
-        <section class="tool-section">
-            <div class="section-header">
-                <div class="section-icon">📄</div>
-                <h2>PDF Tools</h2>
-            </div>
-            <p class="section-description">Merge, split, convert, and edit PDF files with our powerful PDF tool collection.</p>
-            
-            <div class="tools-grid" id="pdf-tools">
-                <!-- PDF tools will be populated by JavaScript -->
-            </div>
-        </section>
-
-        <!-- Calculators Tools Section -->
-        <section class="tool-section">
-            <div class="section-header">
-                <div class="section-icon">🧮</div>
-                <h2>Calculators Tools</h2>
-            </div>
-            <p class="section-description">Calculate, count, and convert with our wide range of calculator tools for everyday use.</p>
-            
-            <div class="tools-grid" id="calculator-tools">
-                <!-- Calculator tools will be populated by JavaScript -->
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-info">
-                    <div class="footer-logo">
-                        <i class="fas fa-tools"></i>
-                        Tools Wonder
-                    </div>
-                    <p class="footer-tagline">Simplifying your digital life.</p>
-                    
-                    <div class="footer-contact">
-                        <a href="mailto:searchtoolsonline@gmail.com" class="footer-email">
-                            <i class="fas fa-envelope"></i>
-                            searchtoolsonline@gmail.com
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="footer-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Use</a>
-                </div>
-            </div>
-            
-            <div class="copyright">
-                &copy; 2023 Search Tools Online. All rights reserved.
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Tool data for each section
-        const toolData = {
-            imageTools: [
-                { name: "Resize IMAGE", desc: "Change the dimensions of your images", icon: "fas fa-expand-alt" },
-                { name: "Compress IMAGE", desc: "Reduce image file size without losing quality", icon: "fas fa-compress-alt" },
-                { name: "Convert images to JPG", desc: "Convert any image format to JPG", icon: "fas fa-exchange-alt" },
-                { name: "Crop IMAGE", desc: "Trim and crop your images to perfect size", icon: "fas fa-crop-alt" },
-                { name: "Convert from JPG", desc: "Convert JPG images to other formats", icon: "fas fa-file-image" },
-                { name: "Image editor", desc: "Edit images with various tools and filters", icon: "fas fa-edit" },
-                { name: "Upscale image", desc: "Increase image resolution without losing quality", icon: "fas fa-search-plus" },
-                { name: "Remove background", desc: "Remove background from images automatically", icon: "fas fa-layer-group" },
-                { name: "Watermark IMAGE", desc: "Add watermarks to protect your images", icon: "fas fa-water" },
-                { name: "Meme generator", desc: "Create memes with popular templates", icon: "fas fa-laugh-squint" },
-                { name: "Rotate IMAGE", desc: "Rotate images to the correct orientation", icon: "fas fa-redo" },
-                { name: "HTML to image", desc: "Convert HTML code to images", icon: "fas fa-code" },
-                { name: "Blur face", desc: "Blur faces in images for privacy", icon: "fas fa-user-secret" },
-                { name: "Image Colorize", desc: "Add color to black and white images", icon: "fas fa-palette" },
-                { name: "Convert Image To Document", desc: "Extract text from images to documents", icon: "fas fa-file-word" }
-            ],
-            pdfTools: [
-                { name: "Split PDF file", desc: "Split PDF into multiple documents", icon: "fas fa-cut" },
-                { name: "Merge PDF files", desc: "Combine multiple PDFs into one", icon: "fas fa-object-group" },
-                { name: "Compress PDF files", desc: "Reduce PDF file size", icon: "fas fa-compress-arrows-alt" },
-                { name: "PDF to WORD Converter", desc: "Convert PDF files to Word documents", icon: "fas fa-file-word" },
-                { name: "Convert PDF to POWERPOINT", desc: "Transform PDFs into PowerPoint presentations", icon: "fas fa-file-powerpoint" },
-                { name: "Convert PDF to EXCEL", desc: "Extract data from PDF to Excel", icon: "fas fa-file-excel" },
-                { name: "Convert WORD to PDF", desc: "Convert Word documents to PDF format", icon: "fas fa-file-pdf" },
-                { name: "Convert POWERPOINT to PDF", desc: "Turn presentations into PDFs", icon: "fas fa-file-pdf" },
-                { name: "Convert EXCEL to PDF", desc: "Convert Excel spreadsheets to PDF", icon: "fas fa-file-pdf" },
-                { name: "PDF Editor", desc: "Edit PDF content directly in browser", icon: "fas fa-edit" },
-                { name: "PDF to JPG", desc: "Convert PDF pages to JPG images", icon: "fas fa-image" },
-                { name: "JPG to PDF", desc: "Combine JPG images into a PDF", icon: "fas fa-file-pdf" },
-                { name: "Sign PDF", desc: "Add digital signatures to PDFs", icon: "fas fa-signature" }
-            ],
-            calculatorTools: [
-                { name: "BMI calculator", desc: "Calculate Body Mass Index", icon: "fas fa-weight" },
-                { name: "Calorie Calculator", desc: "Calculate daily calorie needs", icon: "fas fa-apple-alt" },
-                { name: "Body Fat Calculator", desc: "Estimate body fat percentage", icon: "fas fa-user" },
-                { name: "BMR Calculator", desc: "Calculate Basal Metabolic Rate", icon: "fas fa-fire" },
-                { name: "Ideal Weight Calculator", desc: "Determine your ideal weight", icon: "fas fa-balance-scale" },
-                { name: "Age Calculator", desc: "Calculate exact age in years/months/days", icon: "fas fa-birthday-cake" },
-                { name: "Time Calculator", desc: "Add or subtract time values", icon: "fas fa-clock" },
-                { name: "GPA Calculator", desc: "Calculate Grade Point Average", icon: "fas fa-graduation-cap" },
-                { name: "Grade Calculator", desc: "Calculate final grades", icon: "fas fa-chart-line" },
-                { name: "Scientific Calculator", desc: "Advanced calculator for complex math", icon: "fas fa-calculator" },
-                { name: "Triangle Calculator", desc: "Calculate triangle dimensions and angles", icon: "fas fa-shapes" },
-                { name: "Standard Deviation Calculator", desc: "Calculate statistical standard deviation", icon: "fas fa-chart-bar" },
-                { name: "Words Counter", desc: "Count words and characters in text", icon: "fas fa-font" }
-            ]
-        };
-
-        // Function to create tool cards
-        function createToolCard(tool, index) {
-            return `
-                <div class="tool-card">
-                    <div class="tool-icon-small">
-                        <i class="${tool.icon}"></i>
-                    </div>
-                    <h3>${tool.name}</h3>
-                    <p>${tool.desc}</p>
-                    <a href="#" class="tool-button">Use Tool</a>
-                </div>
-            `;
-        }
-
-        // Populate tool sections on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const imageToolsContainer = document.getElementById('image-tools');
-            const pdfToolsContainer = document.getElementById('pdf-tools');
-            const calculatorToolsContainer = document.getElementById('calculator-tools');
-            
-            // Populate image tools
-            toolData.imageTools.forEach(tool => {
-                imageToolsContainer.innerHTML += createToolCard(tool);
-            });
-            
-            // Populate PDF tools (limited to 12 for layout)
-            toolData.pdfTools.slice(0, 12).forEach(tool => {
-                pdfToolsContainer.innerHTML += createToolCard(tool);
-            });
-            
-            // Populate calculator tools
-            toolData.calculatorTools.forEach(tool => {
-                calculatorToolsContainer.innerHTML += createToolCard(tool);
-            });
-            
-            // Mobile menu functionality
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const navMenu = document.getElementById('navMenu');
-            
-            mobileMenuBtn.addEventListener('click', function() {
-                navMenu.classList.toggle('active');
-                const icon = mobileMenuBtn.querySelector('i');
-                if (navMenu.classList.contains('active')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-            });
-            
-            // Search functionality
-            const searchInput = document.querySelector('.search-input');
-            const searchButton = document.querySelector('.search-button');
-            
-            searchButton.addEventListener('click', performSearch);
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
-            });
-            
-            function performSearch() {
-                const searchTerm = searchInput.value.trim().toLowerCase();
-                if (searchTerm) {
-                    alert(`Searching for: "${searchTerm}"\n\nThis would filter the tools in a real implementation.`);
-                    // In a real implementation, you would filter the tools here
-                } else {
-                    searchInput.focus();
-                }
-            }
-            
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-        });
-    </script>
-</body>
-  </html>
+  
+  Design a professional, mobile-responsive homepage for a multi-tool website named "Search Tools Online" using a clean, Sage green and dark purple theme. The site should be fast, elegant, and user-friendly for both desktop and mobile devices.
+
+🧩 Layout Requirements:
+Top Header
+
+Logo: SEARCH TOOLS ONLINE (clean font, slightly bold)
+
+Navigation links: Home | Tools | Contact
+
+Contact via Gmail only: searchtoolsonline@gmail.com
+
+No phone number
+
+Hero Section
+
+Headline: “Your Daily Tools All in One Place”
+
+Subheadline: “Convert, calculate, compress, and simplify your everyday tasks — fast and free.”
+
+CTA button: “Explore Tools”
+
+Simple illustration or icons showing tool variety (image, pdf, calculater)
+
+Search Bar
+
+Prominently placed
+
+Functional and filters tools live by name or keyword
+
+Placeholder: “Search a tool…”
+
+Tool Sections Each of the following categories should be clearly separated with:
+
+A section heading (e.g., "🖼 Image Tools")
+
+A short subheading or description
+
+A grid of tool cards with:
+
+Tool name (e.g., “Image Converter”)
+
+Short 1-line description
+
+A “Use Tool” button with a hyperlink (placeholder link)
+
+Icons or illustrations related to each tool
+
+Rounded corners, soft shadows, hover animation on cards
+
+Blue-accented buttons and highlights
+
+🧰 Sections & Tools:
+Image Tools
+
+Resize IMAGE
+Compress IMAGE 
+Convert images to JPG
+
+Crop IMAGE
+Convert from JPG
+Image editor
+Upscale image
+Remove background
+Watermark IMAGE
+Meme generator
+Rotate IMAGE
+HTML to image
+Blur face
+
+Image Colorize
+Convert Image To Document
+PDF Tools
+Split PDF file
+Merge PDF files
+Compress PDF files
+PDF to WORD Converter
+Convert PDF to POWERPOINT
+Convert PDF to EXCEL
+Convert WORD to PDF
+Convert POWERPOINT to PDF
+Convert EXCEL to PDF
+PDF Editor
+PDF to JPG
+JPG to PDF
+Sign PDF
+Add watermark into a PDF
+
+Rotate PDF
+HTML to PDF
+Unlock PDF
+Protect PDF file
+Organize PDF
+PDF to PDF/A
+Repair PDF file
+Add PDF page numbers
+Scan to PDF
+OCR PDF
+Crop PDF
+Redact PDF
+Compare PDF
+Calculators Tools
+BMI calculator
+Calorie Calculator
+Body Fat Calculator
+BMR Calculator
+Ideal Weight Calculator
+Age Calculator
+Time Calculator
+GPA Calculator
+Grade Calculator
+Scientific Calculator
+Triangle Calculator
+Standard Deviation Calculator
+Words Counter
+
+
+
+💼 Footer
+Logo + brief tagline: “Simplifying your digital life.”
+
+Contact email only: searchtoolsonline@gmail.com
+
+Quick links: Privacy Policy | Terms of Use
+
+Clean layout, no phone number, no clutter
+  
+  
