@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Resizer Tool</title>
+  <style>
+    :root {
+      --red: #fc0328;
+      --cyan: #03fcd7;
+      --bg: #0b0b0b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: radial-gradient(circle at top, #111, var(--bg));
+      color: #fff;
+    }
+
+    header {
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--cyan);
+      text-shadow: 0 0 12px var(--cyan);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 1rem;
+    }
+
+    .card {
+      background: #111;
+      border-radius: 14px;
+      padding: 1.2rem;
+      box-shadow: 0 0 20px rgba(3,252,215,0.2), 0 0 25px rgba(252,3,40,0.2);
+      margin-bottom: 1rem;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.5rem;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    input, select {
+      background: #000;
+      color: #fff;
+      outline: 1px solid var(--cyan);
+    }
+
+    button {
+      cursor: pointer;
+      background: linear-gradient(90deg, var(--red), var(--cyan));
+      color: #000;
+      font-weight: bold;
+      box-shadow: 0 0 12px var(--cyan);
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .preview img {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 0.5rem;
+      box-shadow: 0 0 10px rgba(3,252,215,0.4);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 600px) {
+      header { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>⚡ Multi‑Tool Image Resizer</header>
+
+<div class="container">
+  <div class="card">
+    <label><strong>Select Images (Max 5)</strong></label>
+    <input type="file" id="imageInput" accept="image/*" multiple />
+
+    <div class="grid">
+      <div>
+        <label>Preset Size</label>
+        <select id="preset">
+          <option value="custom">Custom</option>
+          <option value="1080x1080">Instagram Square</option>
+          <option value="1080x1350">Instagram Portrait</option>
+          <option value="1920x1080">Full HD</option>
+          <option value="1200x630">Facebook / LinkedIn</option>
+        </select>
+      </div>
+      <div>
+        <label>Width</label>
+        <input type="number" id="width" placeholder="Auto" />
+      </div>
+      <div>
+        <label>Height</label>
+        <input type="number" id="height" placeholder="Auto" />
+      </div>
+      <div>
+        <label>Format</label>
+        <select id="format">
+          <option value="image/png">PNG</option>
+          <option value="image/jpeg">JPG</option>
+          <option value="image/webp">WEBP</option>
+        </select>
+      </div>
+    </div>
+
+    <button onclick="resizeImages()">Resize & Download</button>
+  </div>
+
+  <div class="card preview" id="preview"></div>
+</div>
+
+<footer>© Multi‑Tool Website • High‑Quality Image Resizer</footer>
+
+<script>
+  const input = document.getElementById('imageInput');
+  const preview = document.getElementById('preview');
+
+  input.addEventListener('change', () => {
+    preview.innerHTML = '';
+    [...input.files].slice(0,5).forEach(file => {
+      const img = document.createElement('img');
+      img.src = URL.createObjectURL(file);
+      preview.appendChild(img);
+    });
+  });
+
+  function resizeImages() {
+    const files = [...input.files].slice(0,5);
+    if (!files.length) return alert('Please select image(s)');
+
+    let preset = document.getElementById('preset').value;
+    let w = document.getElementById('width').value;
+    let h = document.getElementById('height').value;
+    const format = document.getElementById('format').value;
+
+    if (preset !== 'custom') {
+      [w, h] = preset.split('x');
+    }
+
+    files.forEach(file => {
+      const img = new Image();
+      img.onload = () => {
+        const ratio = img.width / img.height;
+        let newW = w ? parseInt(w) : img.width;
+        let newH = h ? parseInt(h) : Math.round(newW / ratio);
+
+        if (!w && h) newW = Math.round(newH * ratio);
+
+        const canvas = document.createElement('canvas');
+        canvas.width = newW;
+        canvas.height = newH;
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, newW, newH);
+
+        canvas.toBlob(blob => {
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = `resized-${file.name}`;
+          a.click();
+        }, format, 0.95);
+      };
+      img.src = URL.createObjectURL(file);
+    });
+  }
+</script>
+
+</body>
+</html>
