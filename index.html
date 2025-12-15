@@ -449,6 +449,147 @@
             font-size: 0.9rem;
         }
         
+        /* Tool Page Styles */
+        .tool-page {
+            display: none;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .tool-page.active {
+            display: block;
+        }
+        
+        .tool-page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .tool-page-header h1 {
+            font-size: 2.8rem;
+            color: var(--primary-cyan);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .tool-page-header p {
+            color: var(--text-gray);
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .tool-interface {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(3, 252, 215, 0.1);
+        }
+        
+        .tool-input-area {
+            margin-bottom: 2rem;
+        }
+        
+        .tool-input-area h3 {
+            color: var(--primary-cyan);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .tool-input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            border: 2px solid rgba(3, 252, 215, 0.2);
+            background-color: rgba(15, 23, 42, 0.5);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+        
+        .tool-input:focus {
+            outline: none;
+            border-color: var(--primary-cyan);
+        }
+        
+        .tool-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .tool-option {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .tool-option label {
+            color: var(--text-gray);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .tool-select {
+            padding: 0.8rem;
+            border-radius: var(--border-radius);
+            border: 2px solid rgba(3, 252, 215, 0.2);
+            background-color: rgba(15, 23, 42, 0.5);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+        
+        .tool-button {
+            background: linear-gradient(90deg, var(--primary-red), #ff2e4e);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(252, 3, 40, 0.3);
+        }
+        
+        .tool-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(252, 3, 40, 0.4);
+        }
+        
+        .back-button {
+            background-color: transparent;
+            color: var(--primary-cyan);
+            border: 2px solid var(--primary-cyan);
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 2rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .back-button:hover {
+            background-color: var(--primary-cyan);
+            color: var(--dark-bg);
+        }
+        
+        /* Homepage container */
+        .homepage-container {
+            display: block;
+        }
+        
+        .homepage-container.hidden {
+            display: none;
+        }
+        
         /* Responsive Styles */
         @media (max-width: 1024px) {
             .hero h1 {
@@ -457,6 +598,10 @@
             
             .section-header h2 {
                 font-size: 2.2rem;
+            }
+            
+            .tool-page-header h1 {
+                font-size: 2.3rem;
             }
         }
         
@@ -539,6 +684,14 @@
             .footer-links {
                 justify-content: flex-start;
             }
+            
+            .tool-page {
+                padding: 1.5rem;
+            }
+            
+            .tool-interface {
+                padding: 1.5rem;
+            }
         }
         
         @media (max-width: 480px) {
@@ -564,6 +717,10 @@
             .section-header h2 {
                 font-size: 1.7rem;
             }
+            
+            .tool-page-header h1 {
+                font-size: 1.9rem;
+            }
         }
     </style>
 </head>
@@ -571,7 +728,7 @@
     <!-- Header Section -->
     <header>
         <div class="header-container">
-            <a href="index.html" class="logo">
+            <a href="#" class="logo" id="homeLink">
                 <i class="fas fa-tools"></i>
                 SEARCH TOOLS ONLINE
             </a>
@@ -582,7 +739,7 @@
             
             <nav id="mainNav">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#" id="navHome">Home</a></li>
                     <li><a href="#tools">Tools</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -594,101 +751,176 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Your Daily Tools All in One Place</h1>
-            <p>Convert, calculate, compress, and simplify your everyday tasks — fast and free.</p>
-            <a href="#tools" class="cta-button">Explore Tools</a>
-        </div>
-        
-        <div class="tool-icons">
-            <div class="tool-icon">
-                <i class="fas fa-file-image"></i>
-                <span>Image Tools</span>
+    <!-- Homepage Container -->
+    <div class="homepage-container" id="homepage">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1>Your Daily Tools All in One Place</h1>
+                <p>Convert, calculate, compress, and simplify your everyday tasks — fast and free.</p>
+                <a href="#tools" class="cta-button">Explore Tools</a>
             </div>
-            <div class="tool-icon">
-                <i class="fas fa-file-pdf"></i>
-                <span>PDF Tools</span>
-            </div>
-            <div class="tool-icon">
-                <i class="fas fa-calculator"></i>
-                <span>Calculators</span>
-            </div>
-            <div class="tool-icon">
-                <i class="fas fa-search"></i>
-                <span>Search Tools</span>
-            </div>
-        </div>
-        
-        <div class="search-container">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" class="search-bar" placeholder="Search a tool..." id="toolSearch">
-        </div>
-    </section>
-
-    <!-- Image Tools Section -->
-    <section class="tools-section" id="tools">
-        <div class="section-header">
-            <h2><i class="fas fa-image"></i> Image Tools</h2>
-            <p>Edit, convert, and optimize images with our comprehensive toolkit</p>
-        </div>
-        
-        <div class="tools-grid" id="imageToolsGrid">
-            <!-- Image tools will be dynamically added here -->
-        </div>
-    </section>
-
-    <!-- PDF Tools Section -->
-    <section class="tools-section">
-        <div class="section-header">
-            <h2><i class="fas fa-file-pdf"></i> PDF Tools</h2>
-            <p>Manage, convert, and edit PDF documents with ease</p>
-        </div>
-        
-        <div class="tools-grid" id="pdfToolsGrid">
-            <!-- PDF tools will be dynamically added here -->
-        </div>
-    </section>
-
-    <!-- Calculator Tools Section -->
-    <section class="tools-section">
-        <div class="section-header">
-            <h2><i class="fas fa-calculator"></i> Calculators</h2>
-            <p>Calculate, count, and convert with precision tools</p>
-        </div>
-        
-        <div class="tools-grid" id="calculatorToolsGrid">
-            <!-- Calculator tools will be dynamically added here -->
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="footer-container">
-            <div class="footer-top">
-                <div class="footer-info">
-                    <div class="footer-logo">SEARCH TOOLS ONLINE</div>
-                    <p class="footer-tagline">Simplifying your digital life.</p>
+            
+            <div class="tool-icons">
+                <div class="tool-icon">
+                    <i class="fas fa-file-image"></i>
+                    <span>Image Tools</span>
                 </div>
-                
-                <div class="footer-contact">
-                    <a href="mailto:searchtoolsonline@gmail.com" class="footer-email">
-                        <i class="fas fa-envelope"></i> searchtoolsonline@gmail.com
-                    </a>
-                    
-                    <div class="footer-links">
-                        <a href="#">Privacy Policy</a>
-                        <a href="#">Terms of Use</a>
-                    </div>
+                <div class="tool-icon">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>PDF Tools</span>
+                </div>
+                <div class="tool-icon">
+                    <i class="fas fa-calculator"></i>
+                    <span>Calculators</span>
+                </div>
+                <div class="tool-icon">
+                    <i class="fas fa-search"></i>
+                    <span>Search Tools</span>
                 </div>
             </div>
             
-            <div class="footer-bottom">
-                <p>&copy; 2026 Search Tools Online. All rights reserved.</p>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-bar" placeholder="Search a tool..." id="toolSearch">
             </div>
+        </section>
+
+        <!-- Image Tools Section -->
+        <section class="tools-section" id="tools">
+            <div class="section-header">
+                <h2><i class="fas fa-image"></i> Image Tools</h2>
+                <p>Edit, convert, and optimize images with our comprehensive toolkit</p>
+            </div>
+            
+            <div class="tools-grid" id="imageToolsGrid">
+                <!-- Image tools will be dynamically added here -->
+            </div>
+        </section>
+
+        <!-- PDF Tools Section -->
+        <section class="tools-section">
+            <div class="section-header">
+                <h2><i class="fas fa-file-pdf"></i> PDF Tools</h2>
+                <p>Manage, convert, and edit PDF documents with ease</p>
+            </div>
+            
+            <div class="tools-grid" id="pdfToolsGrid">
+                <!-- PDF tools will be dynamically added here -->
+            </div>
+        </section>
+
+        <!-- Calculator Tools Section -->
+        <section class="tools-section">
+            <div class="section-header">
+                <h2><i class="fas fa-calculator"></i> Calculators</h2>
+                <p>Calculate, count, and convert with precision tools</p>
+            </div>
+            
+            <div class="tools-grid" id="calculatorToolsGrid">
+                <!-- Calculator tools will be dynamically added here -->
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="contact">
+            <div class="footer-container">
+                <div class="footer-top">
+                    <div class="footer-info">
+                        <div class="footer-logo">SEARCH TOOLS ONLINE</div>
+                        <p class="footer-tagline">Simplifying your digital life.</p>
+                    </div>
+                    
+                    <div class="footer-contact">
+                        <a href="mailto:searchtoolsonline@gmail.com" class="footer-email">
+                            <i class="fas fa-envelope"></i> searchtoolsonline@gmail.com
+                        </a>
+                        
+                        <div class="footer-links">
+                            <a href="#" id="privacyLink">Privacy Policy</a>
+                            <a href="#" id="termsLink">Terms of Use</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <p>&copy; 2026 Search Tools Online. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Tool Pages Container -->
+    <div id="toolPagesContainer">
+        <!-- Tool pages will be dynamically loaded here -->
+    </div>
+
+    <!-- Privacy Policy Page -->
+    <div class="tool-page" id="privacyPage">
+        <div class="tool-page-header">
+            <h1><i class="fas fa-shield-alt"></i> Privacy Policy</h1>
+            <p>How we protect and use your information</p>
         </div>
-    </footer>
+        
+        <div class="tool-interface">
+            <h2>Privacy Policy for Search Tools Online</h2>
+            <p>Last updated: December 2024</p>
+            
+            <h3>Information We Collect</h3>
+            <p>We collect minimal information to provide our services. When you use our tools, we may collect:</p>
+            <ul>
+                <li>Files you upload for processing (these are not stored permanently)</li>
+                <li>Tool usage statistics to improve our services</li>
+                <li>Basic device information for compatibility purposes</li>
+            </ul>
+            
+            <h3>How We Use Your Information</h3>
+            <p>Your information is used solely to:</p>
+            <ul>
+                <li>Provide the tools and services you request</li>
+                <li>Improve our tools and user experience</li>
+                <li>Ensure security and prevent abuse</li>
+            </ul>
+            
+            <h3>Data Security</h3>
+            <p>We implement security measures to protect your data. Files uploaded for processing are automatically deleted within 24 hours.</p>
+            
+            <button class="back-button" id="backFromPrivacy">Back to Home</button>
+        </div>
+    </div>
+
+    <!-- Terms of Use Page -->
+    <div class="tool-page" id="termsPage">
+        <div class="tool-page-header">
+            <h1><i class="fas fa-file-contract"></i> Terms of Use</h1>
+            <p>Terms and conditions for using our services</p>
+        </div>
+        
+        <div class="tool-interface">
+            <h2>Terms of Use</h2>
+            <p>Last updated: December 2024</p>
+            
+            <h3>Acceptance of Terms</h3>
+            <p>By accessing and using Search Tools Online, you accept and agree to be bound by these Terms of Use.</p>
+            
+            <h3>Use of Services</h3>
+            <p>You may use our tools for personal, educational, and commercial purposes, subject to these terms.</p>
+            
+            <h3>Prohibited Uses</h3>
+            <p>You agree not to use our services to:</p>
+            <ul>
+                <li>Violate any laws or regulations</li>
+                <li>Upload harmful or malicious content</li>
+                <li>Attempt to disrupt or compromise our services</li>
+                <li>Automate excessive requests that may impact service performance</li>
+            </ul>
+            
+            <h3>Disclaimer</h3>
+            <p>Our tools are provided "as is" without warranties of any kind. We are not liable for any damages resulting from tool use.</p>
+            
+            <button class="back-button" id="backFromTerms">Back to Home</button>
+        </div>
+    </div>
 
     <script>
         // Mobile menu toggle
@@ -705,53 +937,268 @@
         // Tool data with proper page links
         const toolData = {
             imageTools: [
-                { name: "Resize IMAGE", desc: "Change image dimensions while maintaining quality", icon: "fas fa-expand-alt", page: "resize-image.html" },
-                { name: "Compress IMAGE", desc: "Reduce image file size without losing quality", icon: "fas fa-compress-alt", page: "compress-image.html" },
-                { name: "Convert images to JPG", desc: "Convert various image formats to JPG", icon: "fas fa-file-image", page: "convert-to-jpg.html" },
-                { name: "Crop IMAGE", desc: "Crop images to your desired dimensions", icon: "fas fa-crop", page: "crop-image.html" },
-                { name: "Convert from JPG", desc: "Convert JPG images to other formats", icon: "fas fa-exchange-alt", page: "convert-from-jpg.html" },
-                { name: "Image editor", desc: "Edit images with various tools and filters", icon: "fas fa-edit", page: "image-editor.html" },
-                { name: "Upscale image", desc: "Increase image resolution without quality loss", icon: "fas fa-search-plus", page: "upscale-image.html" },
-                { name: "Remove background", desc: "Remove background from images automatically", icon: "fas fa-user-circle", page: "remove-background.html" },
-                { name: "Watermark IMAGE", desc: "Add text or logo watermark to images", icon: "fas fa-tint", page: "watermark-image.html" },
-                { name: "Meme generator", desc: "Create memes with custom text and images", icon: "fas fa-laugh", page: "meme-generator.html" },
-                { name: "Rotate IMAGE", desc: "Rotate images to any angle", icon: "fas fa-redo", page: "rotate-image.html" },
-                { name: "HTML to image", desc: "Convert HTML code to an image", icon: "fas fa-code", page: "html-to-image.html" },
-                { name: "Blur face", desc: "Blur faces in images for privacy", icon: "fas fa-user-secret", page: "blur-face.html" },
-                { name: "Image Colorize", desc: "Add color to black and white images", icon: "fas fa-palette", page: "image-colorize.html" },
-                { name: "Convert Image To Document", desc: "Convert images to editable documents", icon: "fas fa-file-word", page: "image-to-document.html" }
+                { 
+                    name: "Resize IMAGE", 
+                    desc: "Change image dimensions while maintaining quality", 
+                    icon: "fas fa-expand-alt", 
+                    page: "resize-image"
+                },
+                { 
+                    name: "Compress IMAGE", 
+                    desc: "Reduce image file size without losing quality", 
+                    icon: "fas fa-compress-alt", 
+                    page: "compress-image"
+                },
+                { 
+                    name: "Convert images to JPG", 
+                    desc: "Convert various image formats to JPG", 
+                    icon: "fas fa-file-image", 
+                    page: "convert-to-jpg"
+                },
+                { 
+                    name: "Crop IMAGE", 
+                    desc: "Crop images to your desired dimensions", 
+                    icon: "fas fa-crop", 
+                    page: "crop-image"
+                },
+                { 
+                    name: "Convert from JPG", 
+                    desc: "Convert JPG images to other formats", 
+                    icon: "fas fa-exchange-alt", 
+                    page: "convert-from-jpg"
+                },
+                { 
+                    name: "Image editor", 
+                    desc: "Edit images with various tools and filters", 
+                    icon: "fas fa-edit", 
+                    page: "image-editor"
+                },
+                { 
+                    name: "Upscale image", 
+                    desc: "Increase image resolution without quality loss", 
+                    icon: "fas fa-search-plus", 
+                    page: "upscale-image"
+                },
+                { 
+                    name: "Remove background", 
+                    desc: "Remove background from images automatically", 
+                    icon: "fas fa-user-circle", 
+                    page: "remove-background"
+                },
+                { 
+                    name: "Watermark IMAGE", 
+                    desc: "Add text or logo watermark to images", 
+                    icon: "fas fa-tint", 
+                    page: "watermark-image"
+                },
+                { 
+                    name: "Meme generator", 
+                    desc: "Create memes with custom text and images", 
+                    icon: "fas fa-laugh", 
+                    page: "meme-generator"
+                },
+                { 
+                    name: "Rotate IMAGE", 
+                    desc: "Rotate images to any angle", 
+                    icon: "fas fa-redo", 
+                    page: "rotate-image"
+                },
+                { 
+                    name: "HTML to image", 
+                    desc: "Convert HTML code to an image", 
+                    icon: "fas fa-code", 
+                    page: "html-to-image"
+                },
+                { 
+                    name: "Blur face", 
+                    desc: "Blur faces in images for privacy", 
+                    icon: "fas fa-user-secret", 
+                    page: "blur-face"
+                },
+                { 
+                    name: "Image Colorize", 
+                    desc: "Add color to black and white images", 
+                    icon: "fas fa-palette", 
+                    page: "image-colorize"
+                },
+                { 
+                    name: "Convert Image To Document", 
+                    desc: "Convert images to editable documents", 
+                    icon: "fas fa-file-word", 
+                    page: "image-to-document"
+                }
             ],
             pdfTools: [
-                { name: "Split PDF file", desc: "Split PDF into multiple files", icon: "fas fa-cut", page: "split-pdf.html" },
-                { name: "Merge PDF files", desc: "Combine multiple PDFs into one", icon: "fas fa-object-group", page: "merge-pdf.html" },
-                { name: "Compress PDF files", desc: "Reduce PDF file size", icon: "fas fa-compress-arrows-alt", page: "compress-pdf.html" },
-                { name: "PDF to WORD Converter", desc: "Convert PDF to editable Word document", icon: "fas fa-file-word", page: "pdf-to-word.html" },
-                { name: "Convert PDF to POWERPOINT", desc: "Convert PDF to PowerPoint presentation", icon: "fas fa-file-powerpoint", page: "pdf-to-powerpoint.html" },
-                { name: "Convert PDF to EXCEL", desc: "Convert PDF to Excel spreadsheet", icon: "fas fa-file-excel", page: "pdf-to-excel.html" },
-                { name: "Convert WORD to PDF", desc: "Convert Word documents to PDF", icon: "fas fa-file-pdf", page: "word-to-pdf.html" },
-                { name: "Convert POWERPOINT to PDF", desc: "Convert PowerPoint to PDF", icon: "fas fa-file-pdf", page: "powerpoint-to-pdf.html" },
-                { name: "Convert EXCEL to PDF", desc: "Convert Excel to PDF", icon: "fas fa-file-pdf", page: "excel-to-pdf.html" },
-                { name: "PDF Editor", desc: "Edit PDF text, images, and pages", icon: "fas fa-edit", page: "pdf-editor.html" },
-                { name: "PDF to JPG", desc: "Convert PDF pages to JPG images", icon: "fas fa-image", page: "pdf-to-jpg.html" },
-                { name: "JPG to PDF", desc: "Convert JPG images to PDF", icon: "fas fa-file-pdf", page: "jpg-to-pdf.html" },
-                { name: "Sign PDF", desc: "Add digital signatures to PDFs", icon: "fas fa-signature", page: "sign-pdf.html" },
-                { name: "Add watermark into a PDF", desc: "Add text or image watermarks to PDFs", icon: "fas fa-tint", page: "watermark-pdf.html" },
-                { name: "Rotate PDF", desc: "Rotate PDF pages to correct orientation", icon: "fas fa-redo", page: "rotate-pdf.html" }
+                { 
+                    name: "Split PDF file", 
+                    desc: "Split PDF into multiple files", 
+                    icon: "fas fa-cut", 
+                    page: "split-pdf"
+                },
+                { 
+                    name: "Merge PDF files", 
+                    desc: "Combine multiple PDFs into one", 
+                    icon: "fas fa-object-group", 
+                    page: "merge-pdf"
+                },
+                { 
+                    name: "Compress PDF files", 
+                    desc: "Reduce PDF file size", 
+                    icon: "fas fa-compress-arrows-alt", 
+                    page: "compress-pdf"
+                },
+                { 
+                    name: "PDF to WORD Converter", 
+                    desc: "Convert PDF to editable Word document", 
+                    icon: "fas fa-file-word", 
+                    page: "pdf-to-word"
+                },
+                { 
+                    name: "Convert PDF to POWERPOINT", 
+                    desc: "Convert PDF to PowerPoint presentation", 
+                    icon: "fas fa-file-powerpoint", 
+                    page: "pdf-to-powerpoint"
+                },
+                { 
+                    name: "Convert PDF to EXCEL", 
+                    desc: "Convert PDF to Excel spreadsheet", 
+                    icon: "fas fa-file-excel", 
+                    page: "pdf-to-excel"
+                },
+                { 
+                    name: "Convert WORD to PDF", 
+                    desc: "Convert Word documents to PDF", 
+                    icon: "fas fa-file-pdf", 
+                    page: "word-to-pdf"
+                },
+                { 
+                    name: "Convert POWERPOINT to PDF", 
+                    desc: "Convert PowerPoint to PDF", 
+                    icon: "fas fa-file-pdf", 
+                    page: "powerpoint-to-pdf"
+                },
+                { 
+                    name: "Convert EXCEL to PDF", 
+                    desc: "Convert Excel to PDF", 
+                    icon: "fas fa-file-pdf", 
+                    page: "excel-to-pdf"
+                },
+                { 
+                    name: "PDF Editor", 
+                    desc: "Edit PDF text, images, and pages", 
+                    icon: "fas fa-edit", 
+                    page: "pdf-editor"
+                },
+                { 
+                    name: "PDF to JPG", 
+                    desc: "Convert PDF pages to JPG images", 
+                    icon: "fas fa-image", 
+                    page: "pdf-to-jpg"
+                },
+                { 
+                    name: "JPG to PDF", 
+                    desc: "Convert JPG images to PDF", 
+                    icon: "fas fa-file-pdf", 
+                    page: "jpg-to-pdf"
+                },
+                { 
+                    name: "Sign PDF", 
+                    desc: "Add digital signatures to PDFs", 
+                    icon: "fas fa-signature", 
+                    page: "sign-pdf"
+                },
+                { 
+                    name: "Add watermark into a PDF", 
+                    desc: "Add text or image watermarks to PDFs", 
+                    icon: "fas fa-tint", 
+                    page: "watermark-pdf"
+                },
+                { 
+                    name: "Rotate PDF", 
+                    desc: "Rotate PDF pages to correct orientation", 
+                    icon: "fas fa-redo", 
+                    page: "rotate-pdf"
+                }
             ],
             calculatorTools: [
-                { name: "BMI calculator", desc: "Calculate Body Mass Index", icon: "fas fa-weight", page: "bmi-calculator.html" },
-                { name: "Calorie Calculator", desc: "Calculate daily calorie needs", icon: "fas fa-apple-alt", page: "calorie-calculator.html" },
-                { name: "Body Fat Calculator", desc: "Estimate body fat percentage", icon: "fas fa-user", page: "body-fat-calculator.html" },
-                { name: "BMR Calculator", desc: "Calculate Basal Metabolic Rate", icon: "fas fa-heartbeat", page: "bmr-calculator.html" },
-                { name: "Ideal Weight Calculator", desc: "Determine ideal body weight", icon: "fas fa-balance-scale", page: "ideal-weight-calculator.html" },
-                { name: "Age Calculator", desc: "Calculate age from birth date", icon: "fas fa-birthday-cake", page: "age-calculator.html" },
-                { name: "Time Calculator", desc: "Add or subtract time values", icon: "fas fa-clock", page: "time-calculator.html" },
-                { name: "GPA Calculator", desc: "Calculate Grade Point Average", icon: "fas fa-graduation-cap", page: "gpa-calculator.html" },
-                { name: "Grade Calculator", desc: "Calculate test and exam grades", icon: "fas fa-award", page: "grade-calculator.html" },
-                { name: "Scientific Calculator", desc: "Advanced scientific calculations", icon: "fas fa-square-root-alt", page: "scientific-calculator.html" },
-                { name: "Triangle Calculator", desc: "Solve triangle dimensions and angles", icon: "fas fa-shapes", page: "triangle-calculator.html" },
-                { name: "Standard Deviation Calculator", desc: "Calculate statistical standard deviation", icon: "fas fa-chart-line", page: "standard-deviation-calculator.html" },
-                { name: "Words Counter", desc: "Count words and characters in text", icon: "fas fa-font", page: "words-counter.html" }
+                { 
+                    name: "BMI calculator", 
+                    desc: "Calculate Body Mass Index", 
+                    icon: "fas fa-weight", 
+                    page: "bmi-calculator"
+                },
+                { 
+                    name: "Calorie Calculator", 
+                    desc: "Calculate daily calorie needs", 
+                    icon: "fas fa-apple-alt", 
+                    page: "calorie-calculator"
+                },
+                { 
+                    name: "Body Fat Calculator", 
+                    desc: "Estimate body fat percentage", 
+                    icon: "fas fa-user", 
+                    page: "body-fat-calculator"
+                },
+                { 
+                    name: "BMR Calculator", 
+                    desc: "Calculate Basal Metabolic Rate", 
+                    icon: "fas fa-heartbeat", 
+                    page: "bmr-calculator"
+                },
+                { 
+                    name: "Ideal Weight Calculator", 
+                    desc: "Determine ideal body weight", 
+                    icon: "fas fa-balance-scale", 
+                    page: "ideal-weight-calculator"
+                },
+                { 
+                    name: "Age Calculator", 
+                    desc: "Calculate age from birth date", 
+                    icon: "fas fa-birthday-cake", 
+                    page: "age-calculator"
+                },
+                { 
+                    name: "Time Calculator", 
+                    desc: "Add or subtract time values", 
+                    icon: "fas fa-clock", 
+                    page: "time-calculator"
+                },
+                { 
+                    name: "GPA Calculator", 
+                    desc: "Calculate Grade Point Average", 
+                    icon: "fas fa-graduation-cap", 
+                    page: "gpa-calculator"
+                },
+                { 
+                    name: "Grade Calculator", 
+                    desc: "Calculate test and exam grades", 
+                    icon: "fas fa-award", 
+                    page: "grade-calculator"
+                },
+                { 
+                    name: "Scientific Calculator", 
+                    desc: "Advanced scientific calculations", 
+                    icon: "fas fa-square-root-alt", 
+                    page: "scientific-calculator"
+                },
+                { 
+                    name: "Triangle Calculator", 
+                    desc: "Solve triangle dimensions and angles", 
+                    icon: "fas fa-shapes", 
+                    page: "triangle-calculator"
+                },
+                { 
+                    name: "Standard Deviation Calculator", 
+                    desc: "Calculate statistical standard deviation", 
+                    icon: "fas fa-chart-line", 
+                    page: "standard-deviation-calculator"
+                },
+                { 
+                    name: "Words Counter", 
+                    desc: "Count words and characters in text", 
+                    icon: "fas fa-font", 
+                    page: "words-counter"
+                }
             ]
         };
         
@@ -764,10 +1211,90 @@
                     </div>
                     <h3>${tool.name}</h3>
                     <p>${tool.desc}</p>
-                    <a href="${tool.page}" class="use-tool-btn">Use Tool</a>
-                   
+                    <button class="use-tool-btn" data-tool="${tool.page}">Use Tool</button>
                 </div>
-                 
+            `;
+        }
+        
+        // Function to create tool page
+        function createToolPage(tool) {
+            const toolId = tool.page;
+            const toolName = tool.name;
+            const toolIcon = tool.icon;
+            
+            return `
+                <div class="tool-page" id="${toolId}-page">
+                    <div class="tool-page-header">
+                        <h1><i class="${toolIcon}"></i> ${toolName}</h1>
+                        <p>${tool.desc}</p>
+                    </div>
+                    
+                    <div class="tool-interface">
+                        <div class="tool-input-area">
+                            <h3>Input Area</h3>
+                            <p>This is a demonstration of the ${toolName.toLowerCase()} tool interface.</p>
+                            <p>In a real implementation, this would be a fully functional ${toolName.toLowerCase()} tool.</p>
+                            
+                            ${toolId.includes('image') ? `
+                            <div class="tool-options">
+                                <div class="tool-option">
+                                    <label for="fileInput">Upload File</label>
+                                    <input type="file" id="fileInput" class="tool-input">
+                                </div>
+                                <div class="tool-option">
+                                    <label for="quality">Quality</label>
+                                    <select id="quality" class="tool-select">
+                                        <option value="high">High</option>
+                                        <option value="medium" selected>Medium</option>
+                                        <option value="low">Low</option>
+                                    </select>
+                                </div>
+                            </div>
+                            ` : ''}
+                            
+                            ${toolId.includes('calculator') ? `
+                            <div class="tool-options">
+                                <div class="tool-option">
+                                    <label for="calcInput1">Input 1</label>
+                                    <input type="text" id="calcInput1" class="tool-input" placeholder="Enter value">
+                                </div>
+                                <div class="tool-option">
+                                    <label for="calcInput2">Input 2</label>
+                                    <input type="text" id="calcInput2" class="tool-input" placeholder="Enter value">
+                                </div>
+                            </div>
+                            ` : ''}
+                            
+                            ${toolId.includes('pdf') ? `
+                            <div class="tool-options">
+                                <div class="tool-option">
+                                    <label for="pdfFile">Upload PDF</label>
+                                    <input type="file" id="pdfFile" class="tool-input" accept=".pdf">
+                                </div>
+                                <div class="tool-option">
+                                    <label for="pdfAction">Action</label>
+                                    <select id="pdfAction" class="tool-select">
+                                        <option value="compress">Compress</option>
+                                        <option value="split">Split</option>
+                                        <option value="merge">Merge</option>
+                                        <option value="convert">Convert</option>
+                                    </select>
+                                </div>
+                            </div>
+                            ` : ''}
+                        </div>
+                        
+                        <button class="tool-button" id="processButton">Process</button>
+                        
+                        <div style="margin-top: 2rem; padding: 1.5rem; background-color: rgba(15, 23, 42, 0.5); border-radius: var(--border-radius); display: none;" id="resultArea">
+                            <h3>Result</h3>
+                            <p id="resultText">Your processed result will appear here.</p>
+                            <button class="tool-button" style="margin-top: 1rem;" id="downloadButton">Download Result</button>
+                        </div>
+                        
+                        <button class="back-button" data-back="home">Back to Home</button>
+                    </div>
+                </div>
             `;
         }
         
@@ -776,6 +1303,7 @@
             const imageToolsGrid = document.getElementById('imageToolsGrid');
             const pdfToolsGrid = document.getElementById('pdfToolsGrid');
             const calculatorToolsGrid = document.getElementById('calculatorToolsGrid');
+            const toolPagesContainer = document.getElementById('toolPagesContainer');
             
             // Clear existing content
             imageToolsGrid.innerHTML = '';
@@ -785,17 +1313,109 @@
             // Add image tools
             toolData.imageTools.forEach(tool => {
                 imageToolsGrid.innerHTML += createToolCard(tool);
+                // Add tool page to container
+                toolPagesContainer.innerHTML += createToolPage(tool);
             });
             
             // Add PDF tools
             toolData.pdfTools.forEach(tool => {
                 pdfToolsGrid.innerHTML += createToolCard(tool);
+                // Add tool page to container
+                toolPagesContainer.innerHTML += createToolPage(tool);
             });
             
             // Add calculator tools
             toolData.calculatorTools.forEach(tool => {
                 calculatorToolsGrid.innerHTML += createToolCard(tool);
+                // Add tool page to container
+                toolPagesContainer.innerHTML += createToolPage(tool);
             });
+            
+            // Add event listeners to tool buttons
+            document.querySelectorAll('.use-tool-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const toolId = this.getAttribute('data-tool');
+                    openToolPage(toolId);
+                });
+            });
+            
+            // Add event listeners to back buttons
+            document.querySelectorAll('.back-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const target = this.getAttribute('data-back') || 'home';
+                    if (target === 'home') {
+                        showHomepage();
+                    }
+                });
+            });
+        }
+        
+        // Function to open tool page
+        function openToolPage(toolId) {
+            // Hide homepage
+            document.getElementById('homepage').classList.add('hidden');
+            
+            // Hide all tool pages first
+            document.querySelectorAll('.tool-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Hide privacy and terms pages
+            document.getElementById('privacyPage').classList.remove('active');
+            document.getElementById('termsPage').classList.remove('active');
+            
+            // Show the requested tool page
+            const toolPage = document.getElementById(`${toolId}-page`);
+            if (toolPage) {
+                toolPage.classList.add('active');
+                
+                // Add event listener to process button
+                const processButton = toolPage.querySelector('#processButton');
+                if (processButton) {
+                    processButton.addEventListener('click', function() {
+                        const resultArea = toolPage.querySelector('#resultArea');
+                        const resultText = toolPage.querySelector('#resultText');
+                        
+                        if (resultArea && resultText) {
+                            resultText.textContent = `Your ${toolId.replace('-', ' ')} operation has been completed successfully.`;
+                            resultArea.style.display = 'block';
+                            
+                            // Scroll to result
+                            resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
+                }
+                
+                // Update browser URL without reloading page
+                history.pushState({ tool: toolId }, '', `#${toolId}`);
+            }
+            
+            // Close mobile menu if open
+            if (mainNav.classList.contains('active')) {
+                mainNav.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        }
+        
+        // Function to show homepage
+        function showHomepage() {
+            // Show homepage
+            document.getElementById('homepage').classList.remove('hidden');
+            
+            // Hide all tool pages
+            document.querySelectorAll('.tool-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Hide privacy and terms pages
+            document.getElementById('privacyPage').classList.remove('active');
+            document.getElementById('termsPage').classList.remove('active');
+            
+            // Update browser URL
+            history.pushState({ page: 'home' }, '', window.location.pathname);
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
         // Search functionality
@@ -819,18 +1439,108 @@
         
         // Close mobile menu when clicking on a link
         document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
                 if (mainNav.classList.contains('active')) {
                     mainNav.classList.remove('active');
                     menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
                 }
+                
+                const target = link.getAttribute('href');
+                if (target === '#tools') {
+                    document.getElementById('tools').scrollIntoView({ behavior: 'smooth' });
+                } else if (target === '#contact') {
+                    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+                }
             });
+        });
+        
+        // Home link event
+        document.getElementById('homeLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            showHomepage();
+        });
+        
+        document.getElementById('navHome').addEventListener('click', function(e) {
+            e.preventDefault();
+            showHomepage();
+        });
+        
+        // Privacy and Terms links
+        document.getElementById('privacyLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('homepage').classList.add('hidden');
+            document.getElementById('privacyPage').classList.add('active');
+            
+            // Close mobile menu if open
+            if (mainNav.classList.contains('active')) {
+                mainNav.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+        
+        document.getElementById('termsLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('homepage').classList.add('hidden');
+            document.getElementById('termsPage').classList.add('active');
+            
+            // Close mobile menu if open
+            if (mainNav.classList.contains('active')) {
+                mainNav.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+        
+        // Back buttons for privacy and terms
+        document.getElementById('backFromPrivacy').addEventListener('click', showHomepage);
+        document.getElementById('backFromTerms').addEventListener('click', showHomepage);
+        
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', function(event) {
+            if (event.state && event.state.tool) {
+                openToolPage(event.state.tool);
+            } else {
+                showHomepage();
+            }
+        });
+        
+        // Handle hash in URL on page load
+        window.addEventListener('load', function() {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                // Check if hash matches a tool
+                const allTools = [...toolData.imageTools, ...toolData.pdfTools, ...toolData.calculatorTools];
+                const tool = allTools.find(t => t.page === hash);
+                if (tool) {
+                    openToolPage(hash);
+                }
+            }
         });
         
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
             populateTools();
+            
+            // Add smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#home' || href === '#') {
+                        e.preventDefault();
+                        showHomepage();
+                    } else if (href === '#tools' || href === '#contact') {
+                        // These are handled by the nav link event listeners
+                    }
+                });
+            });
+            
+            // CTA button
+            document.querySelector('.cta-button').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('tools').scrollIntoView({ behavior: 'smooth' });
+            });
         });
     </script>
 </body>
-</html>
+                        </html>
