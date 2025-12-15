@@ -96,7 +96,12 @@
 </head>
 <body>
 
-<header>⚡ Multi‑Tool Image Resizer</header>
+<header>
+  ⚡ Multi‑Tool Image Resizer
+  <div style="margin-top:0.8rem; max-width:200px; margin-left:auto; margin-right:auto;">
+    <button onclick="goHome()" style="width:100%;">⬅ Back to Home</button>
+  </div>
+</header>
 
 <div class="container">
   <div class="card">
@@ -145,6 +150,12 @@
 <footer>Search Tools Online‑High‑Quality Image Resizer</footer>
 
 <script>
+  function goHome() {
+    // Change 'index.html' if your homepage uses a different file
+    window.location.href = 'index.html';
+  }
+
+
   const input = document.getElementById('imageInput');
   const preview = document.getElementById('preview');
   let resizedBlob = null;
