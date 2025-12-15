@@ -64,6 +64,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            text-decoration: none;
         }
         
         .logo i {
@@ -570,10 +571,10 @@
     <!-- Header Section -->
     <header>
         <div class="header-container">
-            <div class="logo">
+            <a href="index.html" class="logo">
                 <i class="fas fa-tools"></i>
                 SEARCH TOOLS ONLINE
-            </div>
+            </a>
             
             <button class="menu-toggle" id="menuToggle">
                 <i class="fas fa-bars"></i>
@@ -581,7 +582,7 @@
             
             <nav id="mainNav">
                 <ul>
-                    <li><a href="#home">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="#tools">Tools</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -701,60 +702,60 @@
                 : '<i class="fas fa-bars"></i>';
         });
         
-        // Tool data
+        // Tool data with proper page links
         const toolData = {
             imageTools: [
-                { name: "Resize IMAGE", desc: "Change image dimensions while maintaining quality", icon: "fas fa-expand-alt" },
-                { name: "Compress IMAGE", desc: "Reduce image file size without losing quality", icon: "fas fa-compress-alt" },
-                { name: "Convert images to JPG", desc: "Convert various image formats to JPG", icon: "fas fa-file-image" },
-                { name: "Crop IMAGE", desc: "Crop images to your desired dimensions", icon: "fas fa-crop" },
-                { name: "Convert from JPG", desc: "Convert JPG images to other formats", icon: "fas fa-exchange-alt" },
-                { name: "Image editor", desc: "Edit images with various tools and filters", icon: "fas fa-edit" },
-                { name: "Upscale image", desc: "Increase image resolution without quality loss", icon: "fas fa-search-plus" },
-                { name: "Remove background", desc: "Remove background from images automatically", icon: "fas fa-user-circle" },
-                { name: "Watermark IMAGE", desc: "Add text or logo watermark to images", icon: "fas fa-tint" },
-                { name: "Meme generator", desc: "Create memes with custom text and images", icon: "fas fa-laugh" },
-                { name: "Rotate IMAGE", desc: "Rotate images to any angle", icon: "fas fa-redo" },
-                { name: "HTML to image", desc: "Convert HTML code to an image", icon: "fas fa-code" },
-                { name: "Blur face", desc: "Blur faces in images for privacy", icon: "fas fa-user-secret" },
-                { name: "Image Colorize", desc: "Add color to black and white images", icon: "fas fa-palette" },
-                { name: "Convert Image To Document", desc: "Convert images to editable documents", icon: "fas fa-file-word" }
+                { name: "Resize IMAGE", desc: "Change image dimensions while maintaining quality", icon: "fas fa-expand-alt", page: "resize-image.html" },
+                { name: "Compress IMAGE", desc: "Reduce image file size without losing quality", icon: "fas fa-compress-alt", page: "compress-image.html" },
+                { name: "Convert images to JPG", desc: "Convert various image formats to JPG", icon: "fas fa-file-image", page: "convert-to-jpg.html" },
+                { name: "Crop IMAGE", desc: "Crop images to your desired dimensions", icon: "fas fa-crop", page: "crop-image.html" },
+                { name: "Convert from JPG", desc: "Convert JPG images to other formats", icon: "fas fa-exchange-alt", page: "convert-from-jpg.html" },
+                { name: "Image editor", desc: "Edit images with various tools and filters", icon: "fas fa-edit", page: "image-editor.html" },
+                { name: "Upscale image", desc: "Increase image resolution without quality loss", icon: "fas fa-search-plus", page: "upscale-image.html" },
+                { name: "Remove background", desc: "Remove background from images automatically", icon: "fas fa-user-circle", page: "remove-background.html" },
+                { name: "Watermark IMAGE", desc: "Add text or logo watermark to images", icon: "fas fa-tint", page: "watermark-image.html" },
+                { name: "Meme generator", desc: "Create memes with custom text and images", icon: "fas fa-laugh", page: "meme-generator.html" },
+                { name: "Rotate IMAGE", desc: "Rotate images to any angle", icon: "fas fa-redo", page: "rotate-image.html" },
+                { name: "HTML to image", desc: "Convert HTML code to an image", icon: "fas fa-code", page: "html-to-image.html" },
+                { name: "Blur face", desc: "Blur faces in images for privacy", icon: "fas fa-user-secret", page: "blur-face.html" },
+                { name: "Image Colorize", desc: "Add color to black and white images", icon: "fas fa-palette", page: "image-colorize.html" },
+                { name: "Convert Image To Document", desc: "Convert images to editable documents", icon: "fas fa-file-word", page: "image-to-document.html" }
             ],
             pdfTools: [
-                { name: "Split PDF file", desc: "Split PDF into multiple files", icon: "fas fa-cut" },
-                { name: "Merge PDF files", desc: "Combine multiple PDFs into one", icon: "fas fa-object-group" },
-                { name: "Compress PDF files", desc: "Reduce PDF file size", icon: "fas fa-compress-arrows-alt" },
-                { name: "PDF to WORD Converter", desc: "Convert PDF to editable Word document", icon: "fas fa-file-word" },
-                { name: "Convert PDF to POWERPOINT", desc: "Convert PDF to PowerPoint presentation", icon: "fas fa-file-powerpoint" },
-                { name: "Convert PDF to EXCEL", desc: "Convert PDF to Excel spreadsheet", icon: "fas fa-file-excel" },
-                { name: "Convert WORD to PDF", desc: "Convert Word documents to PDF", icon: "fas fa-file-pdf" },
-                { name: "Convert POWERPOINT to PDF", desc: "Convert PowerPoint to PDF", icon: "fas fa-file-pdf" },
-                { name: "Convert EXCEL to PDF", desc: "Convert Excel to PDF", icon: "fas fa-file-pdf" },
-                { name: "PDF Editor", desc: "Edit PDF text, images, and pages", icon: "fas fa-edit" },
-                { name: "PDF to JPG", desc: "Convert PDF pages to JPG images", icon: "fas fa-image" },
-                { name: "JPG to PDF", desc: "Convert JPG images to PDF", icon: "fas fa-file-pdf" },
-                { name: "Sign PDF", desc: "Add digital signatures to PDFs", icon: "fas fa-signature" },
-                { name: "Add watermark into a PDF", desc: "Add text or image watermarks to PDFs", icon: "fas fa-tint" },
-                { name: "Rotate PDF", desc: "Rotate PDF pages to correct orientation", icon: "fas fa-redo" }
+                { name: "Split PDF file", desc: "Split PDF into multiple files", icon: "fas fa-cut", page: "split-pdf.html" },
+                { name: "Merge PDF files", desc: "Combine multiple PDFs into one", icon: "fas fa-object-group", page: "merge-pdf.html" },
+                { name: "Compress PDF files", desc: "Reduce PDF file size", icon: "fas fa-compress-arrows-alt", page: "compress-pdf.html" },
+                { name: "PDF to WORD Converter", desc: "Convert PDF to editable Word document", icon: "fas fa-file-word", page: "pdf-to-word.html" },
+                { name: "Convert PDF to POWERPOINT", desc: "Convert PDF to PowerPoint presentation", icon: "fas fa-file-powerpoint", page: "pdf-to-powerpoint.html" },
+                { name: "Convert PDF to EXCEL", desc: "Convert PDF to Excel spreadsheet", icon: "fas fa-file-excel", page: "pdf-to-excel.html" },
+                { name: "Convert WORD to PDF", desc: "Convert Word documents to PDF", icon: "fas fa-file-pdf", page: "word-to-pdf.html" },
+                { name: "Convert POWERPOINT to PDF", desc: "Convert PowerPoint to PDF", icon: "fas fa-file-pdf", page: "powerpoint-to-pdf.html" },
+                { name: "Convert EXCEL to PDF", desc: "Convert Excel to PDF", icon: "fas fa-file-pdf", page: "excel-to-pdf.html" },
+                { name: "PDF Editor", desc: "Edit PDF text, images, and pages", icon: "fas fa-edit", page: "pdf-editor.html" },
+                { name: "PDF to JPG", desc: "Convert PDF pages to JPG images", icon: "fas fa-image", page: "pdf-to-jpg.html" },
+                { name: "JPG to PDF", desc: "Convert JPG images to PDF", icon: "fas fa-file-pdf", page: "jpg-to-pdf.html" },
+                { name: "Sign PDF", desc: "Add digital signatures to PDFs", icon: "fas fa-signature", page: "sign-pdf.html" },
+                { name: "Add watermark into a PDF", desc: "Add text or image watermarks to PDFs", icon: "fas fa-tint", page: "watermark-pdf.html" },
+                { name: "Rotate PDF", desc: "Rotate PDF pages to correct orientation", icon: "fas fa-redo", page: "rotate-pdf.html" }
             ],
             calculatorTools: [
-                { name: "BMI calculator", desc: "Calculate Body Mass Index", icon: "fas fa-weight" },
-                { name: "Calorie Calculator", desc: "Calculate daily calorie needs", icon: "fas fa-apple-alt" },
-                { name: "Body Fat Calculator", desc: "Estimate body fat percentage", icon: "fas fa-user" },
-                { name: "BMR Calculator", desc: "Calculate Basal Metabolic Rate", icon: "fas fa-heartbeat" },
-                { name: "Ideal Weight Calculator", desc: "Determine ideal body weight", icon: "fas fa-balance-scale" },
-                { name: "Age Calculator", desc: "Calculate age from birth date", icon: "fas fa-birthday-cake" },
-                { name: "Time Calculator", desc: "Add or subtract time values", icon: "fas fa-clock" },
-                { name: "GPA Calculator", desc: "Calculate Grade Point Average", icon: "fas fa-graduation-cap" },
-                { name: "Grade Calculator", desc: "Calculate test and exam grades", icon: "fas fa-award" },
-                { name: "Scientific Calculator", desc: "Advanced scientific calculations", icon: "fas fa-square-root-alt" },
-                { name: "Triangle Calculator", desc: "Solve triangle dimensions and angles", icon: "fas fa-shapes" },
-                { name: "Standard Deviation Calculator", desc: "Calculate statistical standard deviation", icon: "fas fa-chart-line" },
-                { name: "Words Counter", desc: "Count words and characters in text", icon: "fas fa-font" }
+                { name: "BMI calculator", desc: "Calculate Body Mass Index", icon: "fas fa-weight", page: "bmi-calculator.html" },
+                { name: "Calorie Calculator", desc: "Calculate daily calorie needs", icon: "fas fa-apple-alt", page: "calorie-calculator.html" },
+                { name: "Body Fat Calculator", desc: "Estimate body fat percentage", icon: "fas fa-user", page: "body-fat-calculator.html" },
+                { name: "BMR Calculator", desc: "Calculate Basal Metabolic Rate", icon: "fas fa-heartbeat", page: "bmr-calculator.html" },
+                { name: "Ideal Weight Calculator", desc: "Determine ideal body weight", icon: "fas fa-balance-scale", page: "ideal-weight-calculator.html" },
+                { name: "Age Calculator", desc: "Calculate age from birth date", icon: "fas fa-birthday-cake", page: "age-calculator.html" },
+                { name: "Time Calculator", desc: "Add or subtract time values", icon: "fas fa-clock", page: "time-calculator.html" },
+                { name: "GPA Calculator", desc: "Calculate Grade Point Average", icon: "fas fa-graduation-cap", page: "gpa-calculator.html" },
+                { name: "Grade Calculator", desc: "Calculate test and exam grades", icon: "fas fa-award", page: "grade-calculator.html" },
+                { name: "Scientific Calculator", desc: "Advanced scientific calculations", icon: "fas fa-square-root-alt", page: "scientific-calculator.html" },
+                { name: "Triangle Calculator", desc: "Solve triangle dimensions and angles", icon: "fas fa-shapes", page: "triangle-calculator.html" },
+                { name: "Standard Deviation Calculator", desc: "Calculate statistical standard deviation", icon: "fas fa-chart-line", page: "standard-deviation-calculator.html" },
+                { name: "Words Counter", desc: "Count words and characters in text", icon: "fas fa-font", page: "words-counter.html" }
             ]
         };
         
-        // Function to create tool cards
+        // Function to create tool cards with proper links
         function createToolCard(tool) {
             return `
                 <div class="tool-card">
@@ -763,11 +764,7 @@
                     </div>
                     <h3>${tool.name}</h3>
                     <p>${tool.desc}</p>
-                    <a href="Resize-image.html" class="use-tool-btn">Use Tool</a>
-
-</a>
-
-                                       
+                    <a href="${tool.page}" class="use-tool-btn">Use Tool</a>
                 </div>
             `;
         }
@@ -777,6 +774,11 @@
             const imageToolsGrid = document.getElementById('imageToolsGrid');
             const pdfToolsGrid = document.getElementById('pdfToolsGrid');
             const calculatorToolsGrid = document.getElementById('calculatorToolsGrid');
+            
+            // Clear existing content
+            imageToolsGrid.innerHTML = '';
+            pdfToolsGrid.innerHTML = '';
+            calculatorToolsGrid.innerHTML = '';
             
             // Add image tools
             toolData.imageTools.forEach(tool => {
@@ -813,26 +815,12 @@
             });
         });
         
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu if open
-                    if (mainNav.classList.contains('active')) {
-                        mainNav.classList.remove('active');
-                        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-                    }
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (mainNav.classList.contains('active')) {
+                    mainNav.classList.remove('active');
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
                 }
             });
         });
