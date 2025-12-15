@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Compressor Tool</title>
+  <style>
+    :root {
+      --red: #fc0328;
+      --cyan: #03fcd7;
+      --bg: #0b0b0b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: radial-gradient(circle at top, #111, var(--bg));
+      color: #fff;
+    }
+
+    header {
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--cyan);
+      text-shadow: 0 0 12px var(--cyan);
+    }
+
+    .home-btn {
+      max-width: 220px;
+      margin: 0.8rem auto 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 1rem;
+    }
+
+    .card {
+      background: #111;
+      border-radius: 14px;
+      padding: 1.2rem;
+      box-shadow: 0 0 20px rgba(3,252,215,0.2), 0 0 25px rgba(252,3,40,0.2);
+      margin-bottom: 1rem;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.5rem;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    input[type=range] {
+      accent-color: var(--cyan);
+    }
+
+    input {
+      background: #000;
+      color: #fff;
+      outline: 1px solid var(--cyan);
+    }
+
+    button {
+      cursor: pointer;
+      background: linear-gradient(90deg, var(--red), var(--cyan));
+      color: #000;
+      font-weight: bold;
+      box-shadow: 0 0 12px var(--cyan);
+      transition: transform 0.2s;
+    }
+
+    button:hover { transform: scale(1.03); }
+
+    .preview img {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 0.7rem;
+      box-shadow: 0 0 10px rgba(3,252,215,0.4);
+    }
+
+    .info {
+      font-size: 0.9rem;
+      opacity: 0.85;
+      margin-top: 0.4rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 600px) {
+      header { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  ⚡ Image Compressor Tool
+  <div class="home-btn">
+    <button onclick="goHome()">⬅ Back to Home</button>
+  </div>
+</header>
+
+<div class="container">
+  <div class="card">
+    <label><strong>Select Image</strong></label>
+    <input type="file" id="imageInput" accept="image/*" />
+
+    <div style="height:1rem"></div>
+
+    <label><strong>Compression Level: <span id="percent">80</span>%</strong></label>
+    <input type="range" id="quality" min="10" max="100" value="80" />
+
+    <div class="info">Lower percentage = smaller file size</div>
+
+    <div style="height:1rem"></div>
+
+    <button onclick="compressImage()">Compress Image</button>
+    <div style="height:0.8rem"></div>
+    <button onclick="downloadImage()">Download Compressed Image</button>
+  </div>
+
+  <div class="card preview" id="preview"></div>
+</div>
+
+<footer>@Search Tools Online-Image Compressor</footer>
+
+<script>
+  const input = document.getElementById('imageInput');
+  const preview = document.getElementById('preview');
+  const qualitySlider = document.getElementById('quality');
+  const percentText = document.getElementById('percent');
+
+  let compressedBlob = null;
+
+  percentText.textContent = qualitySlider.value;
+
+  qualitySlider.addEventListener('input', () => {
+    percentText.textContent = qualitySlider.value;
+  });
+
+  input.addEventListener('change', () => {
+    preview.innerHTML = '';
+    compressedBlob = null;
+
+    const file = input.files[0];
+    if (!file) return;
+
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+    preview.appendChild(img);
+
+    const info = document.createElement('div');
+    info.className = 'info';
+    info.textContent = `Original size: ${(file.size / 1024).toFixed(2)} KB`;
+    preview.appendChild(info);
+  });
+
+  function compressImage() {
+    const file = input.files[0];
+    if (!file) return alert('Please select an image');
+
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+
+      const quality = qualitySlider.value / 100;
+
+      canvas.toBlob(blob => {
+        compressedBlob = blob;
+        preview.innerHTML = '';
+
+        const outImg = document.createElement('img');
+        outImg.src = URL.createObjectURL(blob);
+        preview.appendChild(outImg);
+
+        const info = document.createElement('div');
+        info.className = 'info';
+        info.textContent = `Compressed size: ${(blob.size / 1024).toFixed(2)} KB`;
+        preview.appendChild(info);
+      }, 'image/jpeg', quality);
+    };
+
+    img.src = URL.createObjectURL(file);
+  }
+
+  function downloadImage() {
+    if (!compressedBlob) return alert('Please compress the image first');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(compressedBlob);
+    a.download = 'compressed-image.jpg';
+    a.click();
+  }
+
+  function goHome() {
+    window.location.href = 'index.html';
+  }
+</script>
+
+</body>
+</html>
