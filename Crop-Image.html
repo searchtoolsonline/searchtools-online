@@ -9,7 +9,7 @@
         :root {
             --primary: #fc0328; /* Red */
             --secondary: #03fcd7; /* Cyan */
-          
+            --accent: #ff80aa; /* Mixed: pinkish */
             --accent2: #80ffea; /* Mixed: light cyan */
             --dark: #1a1a2e;
             --darker: #0f0f1a;
@@ -510,9 +510,36 @@
             font-size: 0.9rem;
             color: var(--gray);
         }
+        
+        #no-image-text {
+            color: var(--gray);
+            font-style: italic;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--gradient-mixed);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
     </style>
 </head>
 <body>
+    <!-- Notification toast -->
+    <div class="notification" id="notification"></div>
+    
     <div class="container">
         <header>
             <h1>Crop Image Tool</h1>
@@ -561,7 +588,7 @@
                         <span>✂️</span> Crop Image
                     </button>
                     <button class="btn btn-outline" id="reset-btn">
-                        <span>↺</span> Reset
+                        <span>↺</span> Reset All
                     </button>
                     <button class="btn btn-outline" id="home-btn">
                         <span>🏠</span> Go Back Home
@@ -647,12 +674,21 @@
         const downloadBtn = document.getElementById('download-btn');
         const newCropBtn = document.getElementById('new-crop-btn');
         const loading = document.getElementById('loading');
+        const notification = document.getElementById('notification');
         
         // Variables
         let cropper = null;
-        let currentImage = null;
         let selectedFormat = 'png';
         let selectedAspectRatio = 'free';
+        
+        // Show notification function
+        function showNotification(message, duration = 3000) {
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, duration);
+        }
         
         // Event Listeners
         uploadArea.addEventListener('click', () => fileInput.click());
@@ -686,14 +722,14 @@
         function handleImageUpload(file) {
             // Check file size (max 5MB)
             if (file.size > 5 * 1024 * 1024) {
-                alert('File size exceeds 5MB limit. Please choose a smaller image.');
+                showNotification('File size exceeds 5MB limit. Please choose a smaller image.');
                 return;
             }
             
             // Check file type
             const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
             if (!validTypes.includes(file.type)) {
-                alert('Please upload a valid image file (JPG, PNG, GIF, or WebP).');
+                showNotification('Please upload a valid image file (JPG, PNG, GIF, or WebP).');
                 return;
             }
             
@@ -728,6 +764,8 @@
                     // Enable crop button
                     cropBtn.disabled = false;
                     cropBtn.innerHTML = '<span>✂️</span> Crop Image';
+                    
+                    showNotification('Image uploaded successfully! Adjust the crop area and click "Crop Image".');
                 }, 100);
             };
             
@@ -751,6 +789,7 @@
                         const [width, height] = selectedAspectRatio.split(':').map(Number);
                         cropper.setAspectRatio(width / height);
                     }
+                    showNotification(`Aspect ratio set to ${selectedAspectRatio === 'free' ? 'Free Crop' : selectedAspectRatio}`);
                 }
             });
         });
@@ -758,7 +797,7 @@
         // Crop button
         cropBtn.addEventListener('click', () => {
             if (!cropper) {
-                alert('Please upload an image first.');
+                showNotification('Please upload an image first.');
                 return;
             }
             
@@ -775,7 +814,7 @@
                 });
                 
                 if (!canvas) {
-                    alert('Error cropping image. Please try again.');
+                    showNotification('Error cropping image. Please try again.');
                     loading.style.display = 'none';
                     noResult.style.display = 'block';
                     return;
@@ -794,33 +833,98 @@
                 setTimeout(() => {
                     resultContainer.style.animation = 'fadeIn 0.5s ease';
                 }, 10);
+                
+                showNotification('Image cropped successfully! You can now download it.');
             }, 600);
         });
         
-        // Reset button
+        // Reset button - FIXED
         resetBtn.addEventListener('click', () => {
+            // Reset aspect ratio buttons
+            aspectBtns.forEach(b => b.classList.remove('active'));
+            document.querySelector('[data-ratio="free"]').classList.add('active');
+            selectedAspectRatio = 'free';
+            
+            // Reset cropper if exists
             if (cropper) {
                 cropper.reset();
-                
-                // Reset to free aspect ratio
-                aspectBtns.forEach(b => b.classList.remove('active'));
-                document.querySelector('[data-ratio="free"]').classList.add('active');
-                selectedAspectRatio = 'free';
                 cropper.setAspectRatio(NaN);
-                
-                // Hide result
-                resultContainer.style.display = 'none';
-                noResult.style.display = 'block';
             }
+            
+            // Reset format selection
+            formatBtns.forEach(b => b.classList.remove('active'));
+            document.querySelector('[data-format="png"]').classList.add('active');
+            selectedFormat = 'png';
+            
+            // Hide result and show no-result message
+            resultContainer.style.display = 'none';
+            loading.style.display = 'none';
+            noResult.style.display = 'block';
+            
+            // Reset file input
+            fileInput.value = '';
+            
+            // Reset image preview
+            imagePreview.src = '';
+            imagePreview.style.display = 'none';
+            noImageText.style.display = 'block';
+            
+            // Disable crop button
+            cropBtn.disabled = true;
+            cropBtn.innerHTML = '<span>✂️</span> Crop Image';
+            
+            showNotification('Tool has been reset. Upload a new image to start cropping.');
         });
         
-        // Home button
+        // Home button - FIXED
         homeBtn.addEventListener('click', () => {
-            if (confirm('Are you sure you want to go back home? Your current work will be lost.')) {
-                // In a real multi-tool website, this would navigate to the homepage
-                // For this demo, we'll just reload the page
-                window.location.href = '#';
-                alert('Navigating to home page... (Demo mode)');
+            // Show confirmation dialog
+            if (confirm('Are you sure you want to go back to the homepage? Your current work will be lost.')) {
+                showNotification('Redirecting to homepage...');
+                
+                // In a real application, you would redirect to your actual homepage
+                // For this demo, we'll simulate going back home
+                setTimeout(() => {
+                    // This would be your actual homepage URL
+                    // window.location.href = "https://www.yourwebsite.com/";
+                    
+                    // For demo purposes, we'll reset the tool completely
+                    // Reset aspect ratio buttons
+                    aspectBtns.forEach(b => b.classList.remove('active'));
+                    document.querySelector('[data-ratio="free"]').classList.add('active');
+                    selectedAspectRatio = 'free';
+                    
+                    // Reset cropper if exists
+                    if (cropper) {
+                        cropper.destroy();
+                        cropper = null;
+                    }
+                    
+                    // Reset format selection
+                    formatBtns.forEach(b => b.classList.remove('active'));
+                    document.querySelector('[data-format="png"]').classList.add('active');
+                    selectedFormat = 'png';
+                    
+                    // Hide result and show no-result message
+                    resultContainer.style.display = 'none';
+                    loading.style.display = 'none';
+                    noResult.style.display = 'block';
+                    
+                    // Reset file input
+                    fileInput.value = '';
+                    
+                    // Reset image preview
+                    imagePreview.src = '';
+                    imagePreview.style.display = 'none';
+                    noImageText.style.display = 'block';
+                    
+                    // Disable crop button
+                    cropBtn.disabled = true;
+                    cropBtn.innerHTML = '<span>✂️</span> Crop Image';
+                    
+                    // Show a final message
+                    showNotification('Welcome to the homepage! (Demo mode - In a real app, you would be redirected to the homepage)', 4000);
+                }, 1000);
             }
         });
         
@@ -837,6 +941,7 @@
                 if (croppedResult.src && cropper) {
                     const canvas = cropper.getCroppedCanvas();
                     croppedResult.src = canvas.toDataURL(`image/${selectedFormat}`);
+                    showNotification(`Image format changed to ${selectedFormat.toUpperCase()}`);
                 }
             });
         });
@@ -844,7 +949,7 @@
         // Download button
         downloadBtn.addEventListener('click', () => {
             if (!croppedResult.src || croppedResult.src.includes('data:image') === false) {
-                alert('Please crop an image first.');
+                showNotification('Please crop an image first.');
                 return;
             }
             
@@ -861,6 +966,8 @@
             const originalText = downloadBtn.innerHTML;
             downloadBtn.innerHTML = '<span>✅</span> Downloaded!';
             downloadBtn.style.background = 'var(--gradient-mixed)';
+            
+            showNotification(`Image downloaded successfully as ${selectedFormat.toUpperCase()} file!`);
             
             setTimeout(() => {
                 downloadBtn.innerHTML = originalText;
@@ -882,6 +989,10 @@
                 document.querySelector('[data-ratio="free"]').classList.add('active');
                 selectedAspectRatio = 'free';
                 cropper.setAspectRatio(NaN);
+                
+                showNotification('Ready to crop again! Adjust the crop area and click "Crop Image".');
+            } else {
+                showNotification('Please upload an image first.');
             }
         });
         
@@ -891,15 +1002,7 @@
         // Show a welcome message on load
         window.addEventListener('load', () => {
             console.log('Crop Image Tool with Mixed Color Theme loaded successfully!');
-            
-            // Add a subtle color animation to the header
-            const header = document.querySelector('header');
-            let hueRotation = 0;
-            
-            setInterval(() => {
-                hueRotation = (hueRotation + 0.5) % 360;
-                header.style.filter = `hue-rotate(${hueRotation}deg)`;
-            }, 5000);
+            showNotification('Welcome to the Crop Image Tool! Upload an image to get started.', 4000);
         });
         
         // Add keyboard shortcuts
@@ -923,6 +1026,12 @@
             // Escape to reset
             if (e.key === 'Escape') {
                 resetBtn.click();
+            }
+            
+            // Ctrl+H to go home (Cmd+H on Mac)
+            if ((e.ctrlKey || e.metaKey) && e.key === 'h') {
+                e.preventDefault();
+                homeBtn.click();
             }
         });
     </script>
