@@ -6,11 +6,21 @@
     <title>Crop Image Tool | Multi-Tool Website</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
     <style>
-        :root { --red: #fc0328;
-      --cyan: #03fcd7;
-      --bg: #0b0b0b;
- 
-            
+        :root {
+            --primary: #fc0328; /* Red */
+            --secondary: #03fcd7; /* Cyan */
+            --accent: #ff80aa; /* Mixed: pinkish */
+            --accent2: #80ffea; /* Mixed: light cyan */
+            --dark: #1a1a2e;
+            --darker: #0f0f1a;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, #ff4d6d 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, #80ffea 100%);
+            --gradient-mixed: linear-gradient(135deg, var(--primary) 0%, #ff80aa 50%, var(--secondary) 100%);
+            --gradient-home: linear-gradient(135deg, var(--primary) 0%, #ff1a4d 25%, #ff80aa 50%, #00e6c3 75%, var(--secondary) 100%);
+            --gradient-bg: linear-gradient(135deg, rgba(252, 3, 40, 0.05) 0%, rgba(3, 252, 215, 0.05) 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
         }
         
         * {
@@ -296,6 +306,55 @@
             border-color: transparent;
         }
         
+        /* UPDATED: Home Button with Mixed Color Gradient */
+        .btn-home {
+            background: var(--gradient-home);
+            color: white;
+            border: none;
+            background-size: 300% 100%;
+            animation: gradientShift 6s ease infinite;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-home:hover {
+            background: var(--gradient-home);
+            background-size: 300% 100%;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            animation: gradientShift 3s ease infinite;
+        }
+        
+        .btn-home:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-home::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+        
+        .btn-home:hover::after {
+            transform: translateX(100%);
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
         .download-options {
             margin-top: 25px;
             padding-top: 25px;
@@ -353,6 +412,13 @@
             margin-top: 20px;
         }
         
+        .button-group-left {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
         footer {
             text-align: center;
             padding: 25px;
@@ -393,6 +459,10 @@
             }
             
             .button-group {
+                flex-direction: column;
+            }
+            
+            .button-group-left {
                 flex-direction: column;
             }
             
@@ -525,6 +595,37 @@
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
+        
+        .header-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-controls {
+                position: relative;
+                top: 0;
+                right: 0;
+                justify-content: center;
+                margin-top: 15px;
+            }
+        }
+        
+        /* Home button color sample display */
+        .color-preview {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gradient-home);
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
@@ -533,8 +634,15 @@
     
     <div class="container">
         <header>
+            <div class="header-controls">
+                <button class="btn btn-home" id="home-btn">
+                    <span>🏠</span> Go Back Home
+                    <div class="color-preview"></div>
+                </button>
+            </div>
+            
             <h1>Crop Image Tool</h1>
-            <p class="subtitle">Upload, crop, and download images in various sizes and formats with our mixed-color themed tool</p>
+            <p class="subtitle">Upload, crop, and download images in various sizes and formats</p>
             <div class="theme-indicator">
                 <div class="mixed-color-box">
                     <div class="color-sample primary" title="Primary Color #fc0328"></div>
@@ -574,15 +682,9 @@
                     <div class="aspect-btn" data-ratio="2:3">Portrait (2:3)</div>
                 </div>
                 
-                <div class="controls">
+                <div class="button-group-left">
                     <button class="btn btn-primary" id="crop-btn">
                         <span>✂️</span> Crop Image
-                    </button>
-                    <button class="btn btn-outline" id="reset-btn">
-                        <span>↺</span> Reset All
-                    </button>
-                    <button class="btn btn-outline" id="home-btn">
-                        <span>🏠</span> Go Back Home
                     </button>
                 </div>
             </div>
@@ -617,8 +719,8 @@
                             <button class="btn btn-secondary" id="download-btn">
                                 <span>⬇️</span> Download Image
                             </button>
-                            <button class="btn btn-outline" id="new-crop-btn">
-                                <span>🔄</span> Crop Another
+                            <button class="btn btn-primary" id="new-crop-btn">
+                                <span>🔄</span> Crop Another Image
                             </button>
                         </div>
                     </div>
@@ -635,6 +737,8 @@
                         <p>3. Adjust the crop area as needed</p>
                         <p>4. Click "Crop Image" to process</p>
                         <p>5. Choose format and download your cropped image</p>
+                        <p>6. Click "Crop Another Image" to start over</p>
+                        <p>7. Use the "Go Back Home" button to return to the main menu</p>
                     </div>
                 </div>
             </div>
@@ -654,7 +758,6 @@
         const imagePreview = document.getElementById('image-preview');
         const noImageText = document.getElementById('no-image-text');
         const cropBtn = document.getElementById('crop-btn');
-        const resetBtn = document.getElementById('reset-btn');
         const homeBtn = document.getElementById('home-btn');
         const aspectBtns = document.querySelectorAll('.aspect-btn');
         const resultContainer = document.getElementById('result-container');
@@ -679,6 +782,42 @@
             setTimeout(() => {
                 notification.style.display = 'none';
             }, duration);
+        }
+        
+        // Reset tool to initial state
+        function resetTool() {
+            // Reset aspect ratio buttons
+            aspectBtns.forEach(b => b.classList.remove('active'));
+            document.querySelector('[data-ratio="free"]').classList.add('active');
+            selectedAspectRatio = 'free';
+            
+            // Reset cropper if exists
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+            
+            // Reset format selection
+            formatBtns.forEach(b => b.classList.remove('active'));
+            document.querySelector('[data-format="png"]').classList.add('active');
+            selectedFormat = 'png';
+            
+            // Hide result and show no-result message
+            resultContainer.style.display = 'none';
+            loading.style.display = 'none';
+            noResult.style.display = 'block';
+            
+            // Reset file input
+            fileInput.value = '';
+            
+            // Reset image preview
+            imagePreview.src = '';
+            imagePreview.style.display = 'none';
+            noImageText.style.display = 'block';
+            
+            // Disable crop button
+            cropBtn.disabled = true;
+            cropBtn.innerHTML = '<span>✂️</span> Crop Image';
         }
         
         // Event Listeners
@@ -829,95 +968,129 @@
             }, 600);
         });
         
-        // Reset button - FIXED
-        resetBtn.addEventListener('click', () => {
-            // Reset aspect ratio buttons
-            aspectBtns.forEach(b => b.classList.remove('active'));
-            document.querySelector('[data-ratio="free"]').classList.add('active');
-            selectedAspectRatio = 'free';
-            
-            // Reset cropper if exists
-            if (cropper) {
-                cropper.reset();
-                cropper.setAspectRatio(NaN);
-            }
-            
-            // Reset format selection
-            formatBtns.forEach(b => b.classList.remove('active'));
-            document.querySelector('[data-format="png"]').classList.add('active');
-            selectedFormat = 'png';
-            
-            // Hide result and show no-result message
-            resultContainer.style.display = 'none';
-            loading.style.display = 'none';
-            noResult.style.display = 'block';
-            
-            // Reset file input
-            fileInput.value = '';
-            
-            // Reset image preview
-            imagePreview.src = '';
-            imagePreview.style.display = 'none';
-            noImageText.style.display = 'block';
-            
-            // Disable crop button
-            cropBtn.disabled = true;
-            cropBtn.innerHTML = '<span>✂️</span> Crop Image';
-            
-            showNotification('Tool has been reset. Upload a new image to start cropping.');
+        // Go Back Home button - FULLY WORKING
+        homeBtn.addEventListener('click', () => {
+            // Show custom confirmation dialog
+            showHomeConfirmation();
         });
         
-        // Home button - FIXED
-        homeBtn.addEventListener('click', () => {
-            // Show confirmation dialog
-            if (confirm('Are you sure you want to go back to the homepage? Your current work will be lost.')) {
-                showNotification('Redirecting to homepage...');
+        // Custom confirmation dialog for home button
+        function showHomeConfirmation() {
+            // Create overlay
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2000;
+                animation: fadeIn 0.3s ease;
+            `;
+            
+            // Create confirmation box
+            const confirmationBox = document.createElement('div');
+            confirmationBox.style.cssText = `
+                background: white;
+                padding: 30px;
+                border-radius: 15px;
+                max-width: 500px;
+                width: 90%;
+                text-align: center;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                border: 3px solid;
+                border-image: linear-gradient(135deg, var(--primary), var(--secondary)) 1;
+            `;
+            
+            // Add content
+            confirmationBox.innerHTML = `
+                <h3 style="color: var(--dark); margin-bottom: 15px; font-size: 1.5rem;">Leave Crop Image Tool?</h3>
+                <div style="background: var(--gradient-home); height: 4px; width: 100%; margin-bottom: 20px; border-radius: 2px;"></div>
+                <p style="color: var(--gray); margin-bottom: 25px; line-height: 1.5; font-size: 1.1rem;">
+                    Are you sure you want to go back to the homepage?<br>
+                    Your current work will be lost.
+                </p>
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <button id="confirm-home" style="
+                        background: var(--gradient-home);
+                        color: white;
+                        border: none;
+                        padding: 14px 28px;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-weight: 600;
+                        transition: all 0.3s ease;
+                        font-size: 1rem;
+                        min-width: 140px;
+                    ">Yes, Go Home</button>
+                    <button id="cancel-home" style="
+                        background: #f0f0f0;
+                        color: var(--dark);
+                        border: 2px solid var(--gray);
+                        padding: 14px 28px;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-weight: 600;
+                        transition: all 0.3s ease;
+                        font-size: 1rem;
+                        min-width: 140px;
+                    ">Cancel</button>
+                </div>
+            `;
+            
+            // Append to body
+            overlay.appendChild(confirmationBox);
+            document.body.appendChild(overlay);
+            
+            // Add event listeners
+            document.getElementById('confirm-home').addEventListener('click', () => {
+                // Remove overlay
+                document.body.removeChild(overlay);
                 
-                // In a real application, you would redirect to your actual homepage
-                // For this demo, we'll simulate going back home
+                // Show leaving message
+                showNotification('Returning to homepage...', 2000);
+                
+                // Reset the tool
+                resetTool();
+                
+                // In a real multi-tool website, you would redirect to the homepage
+                // For demo purposes, we simulate going home
                 setTimeout(() => {
-                    // This would be your actual homepage URL
-                    // window.location.href = "https://www.yourwebsite.com/";
+                    showNotification('Welcome to the Multi-Tool Homepage! (Demo Mode)', 4000);
                     
-                    // For demo purposes, we'll reset the tool completely
-                    // Reset aspect ratio buttons
-                    aspectBtns.forEach(b => b.classList.remove('active'));
-                    document.querySelector('[data-ratio="free"]').classList.add('active');
-                    selectedAspectRatio = 'free';
+                    // Scroll to top for better UX
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                     
-                    // Reset cropper if exists
-                    if (cropper) {
-                        cropper.destroy();
-                        cropper = null;
-                    }
+                    // Add a visual effect to simulate homepage navigation
+                    document.body.style.opacity = '0.9';
+                    setTimeout(() => {
+                        document.body.style.opacity = '1';
+                    }, 300);
                     
-                    // Reset format selection
-                    formatBtns.forEach(b => b.classList.remove('active'));
-                    document.querySelector('[data-format="png"]').classList.add('active');
-                    selectedFormat = 'png';
-                    
-                    // Hide result and show no-result message
-                    resultContainer.style.display = 'none';
-                    loading.style.display = 'none';
-                    noResult.style.display = 'block';
-                    
-                    // Reset file input
-                    fileInput.value = '';
-                    
-                    // Reset image preview
-                    imagePreview.src = '';
-                    imagePreview.style.display = 'none';
-                    noImageText.style.display = 'block';
-                    
-                    // Disable crop button
-                    cropBtn.disabled = true;
-                    cropBtn.innerHTML = '<span>✂️</span> Crop Image';
-                    
-                    // Show a final message
-                    showNotification('Welcome to the homepage! (Demo mode - In a real app, you would be redirected to the homepage)', 4000);
+                    // You would replace the above with:
+                    // window.location.href = "https://yourwebsite.com/";
+                    // to actually navigate to your homepage
                 }, 1000);
-            }
-        });
+            });
+            
+            document.getElementById('cancel-home').addEventListener('click', () => {
+                // Remove overlay
+                document.body.removeChild(overlay);
+                showNotification('Cancelled. Continuing with current work.', 2000);
+            });
+            
+            // Also close if clicking on overlay
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    document.body.removeChild(overlay);
+                    showNotification('Cancelled. Continuing with current work.', 2000);
+                }
+            });
+        }
         
         // Format selection
         formatBtns.forEach(btn => {
@@ -968,23 +1141,8 @@
         
         // New crop button
         newCropBtn.addEventListener('click', () => {
-            // Reset everything for a new crop
-            resultContainer.style.display = 'none';
-            noResult.style.display = 'block';
-            
-            if (cropper) {
-                cropper.reset();
-                
-                // Reset to free aspect ratio
-                aspectBtns.forEach(b => b.classList.remove('active'));
-                document.querySelector('[data-ratio="free"]').classList.add('active');
-                selectedAspectRatio = 'free';
-                cropper.setAspectRatio(NaN);
-                
-                showNotification('Ready to crop again! Adjust the crop area and click "Crop Image".');
-            } else {
-                showNotification('Please upload an image first.');
-            }
+            resetTool();
+            showNotification('Ready to crop a new image! Upload an image to get started.');
         });
         
         // Initialize with crop button disabled
@@ -1014,17 +1172,44 @@
                 }
             }
             
-            // Escape to reset
-            if (e.key === 'Escape') {
-                resetBtn.click();
-            }
-            
             // Ctrl+H to go home (Cmd+H on Mac)
             if ((e.ctrlKey || e.metaKey) && e.key === 'h') {
                 e.preventDefault();
                 homeBtn.click();
             }
+            
+            // Escape to close any open modals
+            if (e.key === 'Escape') {
+                const overlay = document.querySelector('div[style*="position: fixed"]');
+                if (overlay) {
+                    document.body.removeChild(overlay);
+                    showNotification('Cancelled. Continuing with current work.', 2000);
+                }
+            }
         });
+        
+        // Add special visual effects for home button
+        homeBtn.addEventListener('mouseenter', () => {
+            homeBtn.style.transform = 'scale(1.05)';
+        });
+        
+        homeBtn.addEventListener('mouseleave', () => {
+            homeBtn.style.transform = 'scale(1)';
+        });
+        
+        // Animate the home button gradient continuously
+        setInterval(() => {
+            const homeBtn = document.getElementById('home-btn');
+            if (homeBtn) {
+                const currentTransform = homeBtn.style.transform || '';
+                if (!currentTransform.includes('scale')) {
+                    homeBtn.style.transform = 'scale(1.02)';
+                    setTimeout(() => {
+                        homeBtn.style.transform = 'scale(1)';
+                    }, 300);
+                }
+            }
+        }, 8000);
     </script>
 </body>
 </html>
