@@ -633,16 +633,24 @@
     <div class="notification" id="notification"></div>
     
     <div class="container">
-       
-           <header>
-  ⚡ Crop Image
-  <div class="home-btn">
-    <button onclick="goHome()">⬅ Back to Home</button>
-  </div>
-</header>
-               
-           
-
+        <header>
+            <div class="header-controls">
+                <button class="btn btn-home" id="home-btn">
+                    <span>🏠</span> Go Back Home
+                    <div class="color-preview"></div>
+                </button>
+            </div>
+            
+            <h1>Crop Image Tool</h1>
+            <p class="subtitle">Upload, crop, and download images in various sizes and formats</p>
+            <div class="theme-indicator">
+                <div class="mixed-color-box">
+                    <div class="color-sample primary" title="Primary Color #fc0328"></div>
+                    <div class="color-sample mixed" title="Mixed Color #ff80aa"></div>
+                    <div class="color-sample secondary" title="Secondary Color #03fcd7"></div>
+                </div>
+            </div>
+        </header>
         
         <div class="tool-container">
             <div class="panel">
@@ -738,7 +746,7 @@
         
         <footer>
             <p class="footer-text">@Search Tools Online - Crop Image</p>
-            
+           
         </footer>
     </div>
 
