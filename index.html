@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,10 +8,18 @@
     <style>
         :root {
             /* Stylish Red shades */
---red: #fc0328;
---cyan: #03fcd7;
---bg: #0b0b0b;
+            --red-primary: #fc0328;
+            --red-light: #ff4d6d;
+            --red-dark: #c00220;
+            --red-very-light: #fff0f3;
+            --red-gradient: linear-gradient(135deg, #fc0328, #ff4d6d);
             
+            /* Stylish Cyan shades */
+            --cyan-primary: #03fcd7;
+            --cyan-light: #5afde3;
+            --cyan-dark: #00d0b0;
+            --cyan-very-light: #f0fffc;
+            --cyan-gradient: linear-gradient(135deg, #03fcd7, #5afde3);
             
             /* Stylish Mixed gradients - Creative blending without percentages */
             --mixed-gradient-elegant: linear-gradient(135deg, #fc0328, #ff2e4e, #03a8d4, #03fcd7);
@@ -942,8 +947,16 @@
                 <div class="tool-icon">
                     <i class="fas fa-calculator"></i>
                 </div>
-                
-                
+                <div class="tool-icon">
+                    <i class="fas fa-font"></i>
+                </div>
+                <div class="tool-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="tool-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+            </div>
         </div>
     </section>
     
@@ -978,7 +991,7 @@
                     </div>
                     <h3>Resize Image</h3>
                     <p>Change image dimensions while maintaining aspect ratio</p>
-                    <a href="Resize-image.html" class="tool-button">Use Tool</a>
+                    <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
                 <div class="tool-card">
@@ -987,7 +1000,7 @@
                     </div>
                     <h3>Compress Image</h3>
                     <p>Reduce image file size without losing quality</p>
-                    <a href="Compress-image.html" class="tool-button">Use Tool</a>
+                    <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
                 <div class="tool-card">
@@ -996,7 +1009,7 @@
                     </div>
                     <h3>Convert Image To JPG</h3>
                     <p>Convert any image format to JPG format</p>
-                    <a href="Convert-Image-To-JPG.html" class="tool-button">Use Tool</a>
+                    <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
                 <div class="tool-card">
@@ -1005,7 +1018,7 @@
                     </div>
                     <h3>Crop Image</h3>
                     <p>Crop images to remove unwanted areas or focus on specific parts</p>
-                    <a href="Crop-Image.html" class="tool-button">Use Tool</a>
+                    <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
                 <div class="tool-card">
@@ -1014,16 +1027,17 @@
                     </div>
                     <h3>Convert From JPG</h3>
                     <p>Convert JPG images to other formats like PNG, GIF, WEBP</p>
-                    <a href="Convert-From-Jpg.html" class="tool-button">Use Tool</a>
+                    <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
+                <!-- Changed: Image Editor to Image to Text -->
                 <div class="tool-card">
                     <div class="tool-icon-container">
-                        <i class="fas fa-edit"></i>
+                        <i class="fas fa-font"></i>
                     </div>
-                    <h3>Image To Text</h3>
-                    <p>Images Convert to Text</p>
-                    <a href="Image-to-text.html" class="tool-button">Use Tool</a>
+                    <h3>Image to Text</h3>
+                    <p>Extract text from images using OCR technology</p>
+                    <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
                 <div class="tool-card">
@@ -1577,4 +1591,4 @@
         document.head.appendChild(styleSheet);
     </script>
 </body>
-</html>
+                    </html>
