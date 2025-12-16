@@ -165,6 +165,7 @@
         <input type="range" id="blur" min="0" max="10" value="0" />
 
         <button class="btn" id="editBtn">Edit Image</button>
+        <button class="btn" id="resetBtn">Reset Image</button>
       </div>
 
       <!-- PREVIEW -->
@@ -172,7 +173,7 @@
         <canvas id="canvas"></canvas>
         <div class="actions">
           <button class="btn" id="downloadBtn">Download Image</button>
-          <button class="btn back-home" onclick="window.location.href='/'">Back to Home</button>
+          <button class="btn back-home" id="homeBtn">Back to Home</button>
         </div>
       </div>
     </div>
@@ -198,8 +199,11 @@
 
     const editBtn = document.getElementById("editBtn");
     const downloadBtn = document.getElementById("downloadBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const homeBtn = document.getElementById("homeBtn");
 
     let img = new Image();
+    let originalImageData = null;
 
     // --- Upload & initial draw ---
     upload.addEventListener("change", (e) => {
@@ -214,6 +218,7 @@
           ctx.setTransform(1, 0, 0, 1, 0, 0);
           ctx.filter = 'none';
           ctx.drawImage(img, 0, 0);
+          originalImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         };
         img.src = reader.result;
       };
@@ -222,7 +227,7 @@
 
     // --- Apply edits ---
     editBtn.addEventListener("click", () => {
-      if (!canvas.width || !canvas.height) return;
+      if (!originalImageData) return;
 
       const brightness = Number(brightnessInput.value);
       const contrast = Number(contrastInput.value);
@@ -242,7 +247,7 @@
       tempCtx.filter = `brightness(${100 + brightness}%) contrast(${100 + contrast}%) grayscale(${grayscale}%) blur(${blur}px)`;
       tempCtx.translate(newWidth / 2, newHeight / 2);
       tempCtx.rotate((rotate * Math.PI) / 180);
-      tempCtx.drawImage(canvas, -newWidth / 2, -newHeight / 2, newWidth, newHeight);
+      tempCtx.putImageData(originalImageData, -originalImageData.width / 2, -originalImageData.height / 2);
 
       canvas.width = newWidth;
       canvas.height = newHeight;
@@ -258,6 +263,27 @@
       link.download = "edited-image.png";
       link.href = canvas.toDataURL("image/png");
       link.click();
+    });
+
+    // --- Reset ---
+    resetBtn.addEventListener("click", () => {
+      if (!originalImageData) return;
+      canvas.width = originalImageData.width;
+      canvas.height = originalImageData.height;
+      ctx.putImageData(originalImageData, 0, 0);
+
+      brightnessInput.value = 0;
+      contrastInput.value = 0;
+      rotateInput.value = 0;
+      grayscaleInput.value = 0;
+      blurInput.value = 0;
+      resizeWidthInput.value = '';
+      resizeHeightInput.value = '';
+    });
+
+    // --- Back to Home ---
+    homeBtn.addEventListener("click", () => {
+      window.location.href = "index.html";
     });
 
     // --- Minimal self-tests (dev only) ---
