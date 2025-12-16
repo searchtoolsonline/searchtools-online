@@ -145,19 +145,30 @@
 
     <div class="text-box">
       <textarea id="outputText" placeholder="Extracted text will appear here..."></textarea>
-      <p id="loading" style="display:none;margin-top:10px;font-weight:bold;color:#fc0328;">Processing OCR, please wait...</p>
+      <p id="loading" style="display:none;margin-top:10px;font-weight:bold;color:#fc0328;">Processing, please wait...</p>
     </div>
 
     <div class="buttons">
-      <select id="languageSelect" style="padding:10px 15px;border-radius:20px;border:2px solid #03fcd7;font-size:15px;">
-        <option value="eng">English</option>
-        <option value="spa">Spanish</option>
-        <option value="fra">French</option>
-        <option value="deu">German</option>
-        <option value="ara">Arabic</option>
-        <option value="urd">Urdu</option>
+      <select id="ocrLanguage" style="padding:10px 15px;border-radius:20px;border:2px solid #03fcd7;font-size:15px;">
+        <option value="eng">OCR: English</option>
+        <option value="spa">OCR: Spanish</option>
+        <option value="fra">OCR: French</option>
+        <option value="deu">OCR: German</option>
+        <option value="ara">OCR: Arabic</option>
+        <option value="urd">OCR: Urdu</option>
       </select>
+
+      <select id="translateLanguage" style="padding:10px 15px;border-radius:20px;border:2px solid #fc0328;font-size:15px;">
+        <option value="en">Translate to English</option>
+        <option value="es">Translate to Spanish</option>
+        <option value="fr">Translate to French</option>
+        <option value="de">Translate to German</option>
+        <option value="ar">Translate to Arabic</option>
+        <option value="ur">Translate to Urdu</option>
+      </select>
+
       <button onclick="convertToText()">Convert To Text</button>
+      <button onclick="translateText()">Translate Text</button>
       <button onclick="downloadText()">Download Text</button>
       <button onclick="resetTool()">Reset</button>
       <button onclick="goHome()">Back To Home</button>
@@ -193,7 +204,7 @@
         return;
       }
 
-      const lang = document.getElementById('languageSelect').value;
+      const lang = document.getElementById('ocrLanguage').value;
       loading.style.display = 'block';
       outputText.value = '';
 
@@ -233,6 +244,36 @@
       outputText.value = '';
       loading.style.display = 'none';
       selectedImage = null;
+    }
+
+    async function translateText() {
+      if (!outputText.value.trim()) {
+        alert('No text to translate');
+        return;
+      }
+
+      const targetLang = document.getElementById('translateLanguage').value;
+      loading.style.display = 'block';
+
+      try {
+        const response = await fetch('https://libretranslate.de/translate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            q: outputText.value,
+            source: 'auto',
+            target: targetLang,
+            format: 'text'
+          })
+        });
+
+        const data = await response.json();
+        outputText.value = data.translatedText || 'Translation failed.';
+      } catch (err) {
+        outputText.value = 'Error translating text.';
+      }
+
+      loading.style.display = 'none';
     }
   </script>
 
