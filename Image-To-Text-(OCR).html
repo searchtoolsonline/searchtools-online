@@ -145,11 +145,21 @@
 
     <div class="text-box">
       <textarea id="outputText" placeholder="Extracted text will appear here..."></textarea>
+      <p id="loading" style="display:none;margin-top:10px;font-weight:bold;color:#fc0328;">Processing OCR, please wait...</p>
     </div>
 
     <div class="buttons">
+      <select id="languageSelect" style="padding:10px 15px;border-radius:20px;border:2px solid #03fcd7;font-size:15px;">
+        <option value="eng">English</option>
+        <option value="spa">Spanish</option>
+        <option value="fra">French</option>
+        <option value="deu">German</option>
+        <option value="ara">Arabic</option>
+        <option value="urd">Urdu</option>
+      </select>
       <button onclick="convertToText()">Convert To Text</button>
       <button onclick="downloadText()">Download Text</button>
+      <button onclick="resetTool()">Reset</button>
       <button onclick="goHome()">Back To Home</button>
     </div>
   </div>
@@ -162,6 +172,7 @@
     const imageInput = document.getElementById('imageInput');
     const preview = document.getElementById('preview');
     const outputText = document.getElementById('outputText');
+    const loading = document.getElementById('loading');
     let selectedImage = null;
 
     imageInput.addEventListener('change', () => {
@@ -182,14 +193,18 @@
         return;
       }
 
-      outputText.value = 'Extracting text, please wait...';
+      const lang = document.getElementById('languageSelect').value;
+      loading.style.display = 'block';
+      outputText.value = '';
 
-      Tesseract.recognize(selectedImage, 'eng')
+      Tesseract.recognize(selectedImage, lang)
         .then(({ data: { text } }) => {
           outputText.value = text.trim() || 'No text detected.';
+          loading.style.display = 'none';
         })
         .catch(() => {
           outputText.value = 'Error extracting text.';
+          loading.style.display = 'none';
         });
     }
 
@@ -210,6 +225,14 @@
 
     function goHome() {
       window.location.href = '/';
+    }
+
+    function resetTool() {
+      imageInput.value = '';
+      preview.innerHTML = '';
+      outputText.value = '';
+      loading.style.display = 'none';
+      selectedImage = null;
     }
   </script>
 
