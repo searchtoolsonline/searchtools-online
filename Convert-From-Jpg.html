@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convert From JPG</title>
+
+<style>
+:root {
+  --primary: #fc0328;
+  --accent: #03fcd7;
+  --dark: #111;
+  --light: #fff;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  background: var(--light);
+  width: 95%;
+  max-width: 520px;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+h1 {
+  text-align: center;
+  color: var(--primary);
+  margin-bottom: 15px;
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 2px dashed var(--accent);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.preview {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.preview img {
+  max-width: 100%;
+  border-radius: 10px;
+  display: none;
+}
+
+.controls {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+select, input[type="number"], button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+}
+
+select, input[type="number"] {
+  background: #f4f4f4;
+}
+
+button {
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #d00220;
+}
+
+.accent-btn {
+  background: var(--accent);
+  color: #000;
+}
+
+.accent-btn:hover {
+  background: #00d6b5;
+}
+
+.full {
+  grid-column: span 2;
+}
+
+.footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: #444;
+}
+
+@media (max-width: 480px) {
+  .controls {
+    grid-template-columns: 1fr;
+  }
+  .full {
+    grid-column: span 1;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Convert From JPG</h1>
+
+  <input type="file" id="upload" accept="image/jpeg">
+
+  <div class="preview">
+    <img id="previewImg">
+  </div>
+
+  <div class="controls">
+    <select id="format">
+      <option value="png">PNG</option>
+      <option value="webp">WEBP</option>
+      <option value="gif">GIF</option>
+    </select>
+
+    <input type="number" id="width" placeholder="Width (px)">
+    <input type="number" id="height" placeholder="Height (px)">
+
+    <button onclick="cropImage()">Crop Image</button>
+    <button class="accent-btn" onclick="downloadImage()">Download</button>
+
+    <button class="full" onclick="goHome()">Go Back Home</button>
+  </div>
+
+  <div class="footer">
+    © Search Tools Online – Crop Image
+  </div>
+</div>
+
+<canvas id="canvas" style="display:none;"></canvas>
+
+<script>
+let img = new Image();
+let uploaded = false;
+
+document.getElementById("upload").addEventListener("change", function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    img.src = event.target.result;
+    img.onload = () => {
+      document.getElementById("previewImg").src = img.src;
+      document.getElementById("previewImg").style.display = "block";
+      uploaded = true;
+    };
+  };
+  reader.readAsDataURL(file);
+});
+
+function cropImage() {
+  if (!uploaded) return alert("Please upload a JPG image first");
+
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const w = parseInt(document.getElementById("width").value) || img.width;
+  const h = parseInt(document.getElementById("height").value) || img.height;
+
+  canvas.width = w;
+  canvas.height = h;
+
+  ctx.drawImage(img, 0, 0, w, h);
+
+  document.getElementById("previewImg").src = canvas.toDataURL();
+}
+
+function downloadImage() {
+  if (!uploaded) return alert("No image to download");
+
+  const format = document.getElementById("format").value;
+  const canvas = document.getElementById("canvas");
+  const link = document.createElement("a");
+
+  link.download = `converted-image.${format}`;
+  link.href = canvas.toDataURL(`image/${format}`);
+  link.click();
+}
+
+function goHome() {
+  window.location.href = "/";
+}
+</script>
+
+</body>
+</html>
