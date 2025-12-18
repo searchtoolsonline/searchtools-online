@@ -1,1 +1,1499 @@
-gfh
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Translator | Search Tools Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #75002d;
+            --primary-light: #007548;
+            --accent-red: #fc0328;
+            --accent-cyan: #03fcd7;
+            --light-bg: #f8f9fa;
+            --dark-text: #333;
+            --light-text: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+            color: var(--light-text);
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+            color: var(--accent-cyan);
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .logo-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .back-home i {
+            margin-right: 8px;
+        }
+
+        .back-home:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 30px 0 50px;
+        }
+
+        .tool-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .tool-title h2 {
+            font-size: 2.2rem;
+            background: linear-gradient(to right, var(--primary-dark), var(--primary-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .tool-title p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .translator-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .translator-header {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary-light));
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .translator-header h3 {
+            font-size: 1.5rem;
+        }
+
+        .language-selectors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .language-selector {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .language-selector label {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .language-selector select {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            font-weight: 500;
+            min-width: 180px;
+            cursor: pointer;
+        }
+
+        .language-selector select option {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        .swap-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .swap-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: rotate(180deg);
+        }
+
+        .translation-area {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 30px;
+            gap: 20px;
+        }
+
+        .text-box-container {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .text-box-container h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+        }
+
+        .text-box-container h4 i {
+            margin-right: 8px;
+        }
+
+        .text-box {
+            width: 100%;
+            height: 250px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border 0.3s ease;
+        }
+
+        .text-box:focus {
+            outline: none;
+            border-color: var(--primary-light);
+        }
+
+        .text-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .char-count {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--primary-dark);
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        .action-btn i {
+            margin-right: 5px;
+        }
+
+        .action-btn:hover {
+            color: var(--primary-light);
+        }
+
+        .translate-btn-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .translate-btn {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary-light));
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(117, 0, 45, 0.2);
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .translate-btn i {
+            margin-right: 10px;
+        }
+
+        .translate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(117, 0, 45, 0.3);
+        }
+
+        .translate-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .translate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* API Configuration */
+        .api-config {
+            background-color: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            padding: 20px 30px;
+        }
+
+        .api-toggle {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .api-toggle label {
+            margin-right: 15px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-light);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        .local-api-config {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            display: none;
+        }
+
+        .local-api-config.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .config-input {
+            margin-bottom: 15px;
+        }
+
+        .config-input label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .config-input input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+
+        .config-input input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+        }
+
+        .config-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .test-btn, .save-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .test-btn {
+            background-color: #f8f9fa;
+            color: var(--primary-dark);
+            border: 2px solid var(--primary-dark);
+        }
+
+        .test-btn:hover {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        .save-btn {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary-light));
+            color: white;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(117, 0, 45, 0.2);
+        }
+
+        /* API Status Indicator */
+        .api-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-online {
+            background-color: #28a745;
+            animation: pulse 2s infinite;
+        }
+
+        .status-offline {
+            background-color: #dc3545;
+        }
+
+        .status-local {
+            background-color: #007bff;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: none;
+            align-items: center;
+            z-index: 1000;
+            max-width: 350px;
+        }
+
+        .toast.show {
+            display: flex;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast.hide {
+            animation: slideOut 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        .toast i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .toast.success i {
+            color: var(--accent-cyan);
+        }
+
+        .toast.error i {
+            color: var(--accent-red);
+        }
+
+        /* Language List */
+        .language-info {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Installation Instructions */
+        .instructions {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: none;
+        }
+
+        .instructions.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .instructions h4 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .instructions code {
+            background-color: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #d63384;
+        }
+
+        .instructions-btn {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--primary-light);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .instructions-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #222;
+            color: #ddd;
+            padding: 40px 0 20px;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--accent-red), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .footer-logo p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #aaa;
+        }
+
+        .footer-contact h4, .footer-links h4 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .contact-email {
+            display: flex;
+            align-items: center;
+            color: #aaa;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .contact-email i {
+            margin-right: 10px;
+            color: var(--accent-cyan);
+        }
+
+        .contact-email:hover {
+            color: var(--accent-cyan);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-red);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .copyright span {
+            background: linear-gradient(to right, var(--accent-red), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 600;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .translation-area {
+                flex-direction: column;
+            }
+            
+            .text-box {
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-area {
+                margin-bottom: 20px;
+            }
+            
+            .language-selectors {
+                justify-content: center;
+            }
+            
+            .swap-btn {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .toast {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+            }
+            
+            .config-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .test-btn, .save-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .tool-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .translator-header {
+                padding: 20px;
+            }
+            
+            .language-selectors {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .swap-btn {
+                transform: rotate(90deg);
+                margin: 10px 0;
+            }
+            
+            .text-box-container {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-area">
+                    <div class="logo-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Search Tools Online</h1>
+                        <p>Language Translator Tool</p>
+                    </div>
+                </div>
+                <a href="#" class="back-home">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="tool-title">
+                <h2>Language Translator</h2>
+                <p>Translate text between 100+ languages with high accuracy and context preservation. Perfect for documents, websites, and conversations.</p>
+            </div>
+
+            <!-- Translator Tool -->
+            <div class="translator-container">
+                <div class="translator-header">
+                    <h3><i class="fas fa-globe-americas"></i> Translate Text Instantly</h3>
+                    <div class="language-selectors">
+                        <div class="language-selector">
+                            <label for="source-language">From Language</label>
+                            <select id="source-language">
+                                <option value="auto">Auto-detect</option>
+                                <option value="en" selected>English</option>
+                                <option value="es">Spanish</option>
+                                <option value="fr">French</option>
+                                <option value="de">German</option>
+                                <option value="zh">Chinese</option>
+                                <option value="ar">Arabic</option>
+                                <option value="hi">Hindi</option>
+                                <option value="pt">Portuguese</option>
+                                <option value="ru">Russian</option>
+                                <option value="ja">Japanese</option>
+                                <option value="it">Italian</option>
+                                <option value="ko">Korean</option>
+                                <option value="nl">Dutch</option>
+                                <option value="pl">Polish</option>
+                                <option value="tr">Turkish</option>
+                                <option value="vi">Vietnamese</option>
+                                <option value="th">Thai</option>
+                                <option value="id">Indonesian</option>
+                                <option value="fa">Persian</option>
+                                <option value="he">Hebrew</option>
+                            </select>
+                        </div>
+                        
+                        <button class="swap-btn" id="swap-languages">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        
+                        <div class="language-selector">
+                            <label for="target-language">To Language</label>
+                            <select id="target-language">
+                                <option value="es">Spanish</option>
+                                <option value="en" selected>English</option>
+                                <option value="fr">French</option>
+                                <option value="de">German</option>
+                                <option value="zh">Chinese</option>
+                                <option value="ar">Arabic</option>
+                                <option value="hi">Hindi</option>
+                                <option value="pt">Portuguese</option>
+                                <option value="ru">Russian</option>
+                                <option value="ja">Japanese</option>
+                                <option value="it">Italian</option>
+                                <option value="ko">Korean</option>
+                                <option value="nl">Dutch</option>
+                                <option value="pl">Polish</option>
+                                <option value="tr">Turkish</option>
+                                <option value="vi">Vietnamese</option>
+                                <option value="th">Thai</option>
+                                <option value="id">Indonesian</option>
+                                <option value="fa">Persian</option>
+                                <option value="he">Hebrew</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="translation-area">
+                    <div class="text-box-container">
+                        <h4><i class="fas fa-pencil-alt"></i> Text to Translate</h4>
+                        <textarea class="text-box" id="source-text" placeholder="Enter text to translate...">Hello! Welcome to our Language Translator tool. This tool can translate between over 100 languages using a real translation API.</textarea>
+                        <div class="text-actions">
+                            <div class="char-count">Characters: <span id="source-char-count">0</span></div>
+                            <button class="action-btn" id="clear-source">
+                                <i class="fas fa-trash-alt"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="text-box-container">
+                        <h4><i class="fas fa-file-alt"></i> Translated Text</h4>
+                        <textarea class="text-box" id="translated-text" placeholder="Translation will appear here..." readonly></textarea>
+                        <div class="text-actions">
+                            <div class="char-count">Characters: <span id="translated-char-count">0</span></div>
+                            <button class="action-btn" id="copy-translation">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- API Configuration Section -->
+                <div class="api-config">
+                    <div class="api-toggle">
+                        <label for="use-local-api">Use Local Argos Translate Server</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="use-local-api">
+                            <span class="toggle-slider"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="local-api-config" id="local-api-config">
+                        <div class="config-input">
+                            <label for="local-api-url">Local Server URL</label>
+                            <input type="text" id="local-api-url" placeholder="http://localhost:5000" value="http://localhost:5000">
+                        </div>
+                        
+                        <div class="config-actions">
+                            <button class="test-btn" id="test-local-api">
+                                <i class="fas fa-plug"></i> Test Connection
+                            </button>
+                            <button class="save-btn" id="save-local-config">
+                                <i class="fas fa-save"></i> Save Configuration
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button class="instructions-btn" id="show-instructions">
+                        <i class="fas fa-info-circle"></i> How to setup Argos Translate locally
+                    </button>
+                </div>
+                
+                <div class="translate-btn-container">
+                    <button class="translate-btn" id="translate-btn">
+                        <i class="fas fa-language"></i> Translate Text
+                    </button>
+                    <div class="api-status">
+                        <div class="status-dot status-online" id="api-status-dot"></div>
+                        <span id="api-status-text">Using LibreTranslate API</span>
+                    </div>
+                </div>
+                
+                <div class="language-info">
+                    <p>Supports 100+ languages including English, Spanish, French, German, Chinese, Arabic, Hindi, and many more.</p>
+                </div>
+            </div>
+            
+            <!-- Installation Instructions -->
+            <div class="instructions" id="installation-instructions">
+                <h4>How to Install Argos Translate Locally</h4>
+                <ol>
+                    <li><strong>Install Python (if not already installed)</strong> - Download from <a href="https://python.org" target="_blank">python.org</a></li>
+                    <li><strong>Install Argos Translate</strong> - Open terminal/command prompt and run:
+                        <br><code>pip install argostranslate</code></li>
+                    <li><strong>Install language packages</strong> - For example, to install English to Spanish:
+                        <br><code>argospm update</code>
+                        <br><code>argospm install translate-en_es</code></li>
+                    <li><strong>Run the local server</strong>:
+                        <br><code>argos-translate --host 0.0.0.0 --port 5000</code></li>
+                    <li><strong>Test the server</strong> - Open browser and go to:
+                        <br><code>http://localhost:5000</code></li>
+                </ol>
+                <p><strong>Note:</strong> The first time you install language packages, it may take several minutes to download.</p>
+                <p>For more details, visit the <a href="https://github.com/argosopentech/argos-translate" target="_blank">Argos Translate GitHub page</a>.</p>
+                <a href="#" class="instructions-btn" id="hide-instructions">
+                    <i class="fas fa-times"></i> Hide Instructions
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Translation completed successfully!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Search Tools Online</h3>
+                    <p>Simplifying your digital life with powerful, easy-to-use online tools for all your needs.</p>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <a href="mailto:searchtoolsonline@gmail.com" class="contact-email">
+                        <i class="fas fa-envelope"></i> searchtoolsonline@gmail.com
+                    </a>
+                    <p>Have questions or feedback? We'd love to hear from you. Email us anytime!</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Tools Directory</a></li>
+                        <li><a href="#">About Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; <span>Search Tools Online - Image To Text</span> | All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const sourceText = document.getElementById('source-text');
+        const translatedText = document.getElementById('translated-text');
+        const sourceLang = document.getElementById('source-language');
+        const targetLang = document.getElementById('target-language');
+        const swapBtn = document.getElementById('swap-languages');
+        const translateBtn = document.getElementById('translate-btn');
+        const clearSourceBtn = document.getElementById('clear-source');
+        const copyTranslationBtn = document.getElementById('copy-translation');
+        const sourceCharCount = document.getElementById('source-char-count');
+        const translatedCharCount = document.getElementById('translated-char-count');
+        const apiStatusDot = document.getElementById('api-status-dot');
+        const apiStatusText = document.getElementById('api-status-text');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        
+        // Local API elements
+        const useLocalApiCheckbox = document.getElementById('use-local-api');
+        const localApiConfig = document.getElementById('local-api-config');
+        const localApiUrlInput = document.getElementById('local-api-url');
+        const testLocalApiBtn = document.getElementById('test-local-api');
+        const saveLocalConfigBtn = document.getElementById('save-local-config');
+        const showInstructionsBtn = document.getElementById('show-instructions');
+        const hideInstructionsBtn = document.getElementById('hide-instructions');
+        const installationInstructions = document.getElementById('installation-instructions');
+
+        // LibreTranslate API endpoints (public servers)
+        const TRANSLATE_API_URLS = [
+            'https://libretranslate.com/translate',
+            'https://translate.argosopentech.com/translate',
+            'https://libretranslate.de/translate'
+        ];
+        
+        let currentApiIndex = 0;
+        let isApiOnline = true;
+        let useLocalApi = false;
+        let localApiEndpoint = 'http://localhost:5000/translate';
+
+        // Initialize character counts
+        sourceCharCount.textContent = sourceText.value.length;
+        translatedCharCount.textContent = translatedText.value.length;
+
+        // Load saved configuration from localStorage
+        function loadConfig() {
+            const savedUseLocalApi = localStorage.getItem('useLocalApi');
+            const savedLocalApiUrl = localStorage.getItem('localApiUrl');
+            
+            if (savedUseLocalApi === 'true') {
+                useLocalApiCheckbox.checked = true;
+                useLocalApi = true;
+                localApiConfig.classList.add('show');
+                apiStatusDot.className = 'status-dot status-local';
+                apiStatusText.textContent = 'Using Local Argos Translate';
+            }
+            
+            if (savedLocalApiUrl) {
+                localApiUrlInput.value = savedLocalApiUrl;
+                localApiEndpoint = savedLocalApiUrl;
+            }
+        }
+
+        // Save configuration to localStorage
+        function saveConfig() {
+            localStorage.setItem('useLocalApi', useLocalApiCheckbox.checked);
+            localStorage.setItem('localApiUrl', localApiUrlInput.value);
+            showToast('Configuration saved successfully!', 'success');
+        }
+
+        // Update character count for source text
+        sourceText.addEventListener('input', () => {
+            sourceCharCount.textContent = sourceText.value.length;
+        });
+
+        // Update character count for translated text
+        translatedText.addEventListener('input', () => {
+            translatedCharCount.textContent = translatedText.value.length;
+        });
+
+        // Clear source text
+        clearSourceBtn.addEventListener('click', () => {
+            sourceText.value = '';
+            sourceCharCount.textContent = 0;
+            translatedText.value = '';
+            translatedCharCount.textContent = 0;
+        });
+
+        // Copy translation to clipboard
+        copyTranslationBtn.addEventListener('click', async () => {
+            if (translatedText.value.trim() === '') return;
+            
+            try {
+                await navigator.clipboard.writeText(translatedText.value);
+                showToast('Translation copied to clipboard!', 'success');
+            } catch (err) {
+                // Fallback for older browsers
+                translatedText.select();
+                document.execCommand('copy');
+                showToast('Translation copied to clipboard!', 'success');
+            }
+        });
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = `toast show ${type}`;
+            
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => {
+                    toast.classList.remove('show', 'hide', 'success', 'error');
+                }, 300);
+            }, 3000);
+        }
+
+        // Swap languages
+        swapBtn.addEventListener('click', () => {
+            const sourceLangValue = sourceLang.value;
+            const targetLangValue = targetLang.value;
+            
+            // Swap the language selections
+            sourceLang.value = targetLangValue === 'auto' ? 'en' : targetLangValue;
+            targetLang.value = sourceLangValue;
+            
+            // Swap the text content if there's text in either field
+            if (sourceText.value.trim() !== '' || translatedText.value.trim() !== '') {
+                const tempText = sourceText.value;
+                sourceText.value = translatedText.value;
+                translatedText.value = tempText;
+                
+                // Update character counts
+                sourceCharCount.textContent = sourceText.value.length;
+                translatedCharCount.textContent = translatedText.value.length;
+                
+                // If we have text in both fields, translate the swapped text
+                if (sourceText.value.trim() !== '' && translatedText.value.trim() !== '') {
+                    setTimeout(() => {
+                        translateText();
+                    }, 300);
+                }
+            }
+        });
+
+        // Detect language function
+        async function detectLanguage(text) {
+            if (text.trim().length < 2) return 'en';
+            
+            try {
+                // Try to detect using LibreTranslate
+                const response = await fetch(TRANSLATE_API_URLS[currentApiIndex].replace('/translate', '/detect'), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        q: text.substring(0, 100) // Limit to first 100 chars for detection
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data[0] && data[0].language) {
+                        return data[0].language;
+                    }
+                }
+            } catch (error) {
+                console.error('Language detection failed:', error);
+            }
+            
+            // Fallback: simple detection based on common patterns
+            const langPatterns = {
+                'es': /[áéíóúñ]/i,
+                'fr': /[àâäçéèêëîïôœùûüÿ]/i,
+                'de': /[äöüß]/i,
+                'zh': /[\u4e00-\u9fff]/,
+                'ja': /[\u3040-\u309f\u30a0-\u30ff]/,
+                'ar': /[\u0600-\u06FF]/,
+                'ru': /[\u0400-\u04FF]/,
+                'ko': /[\u3131-\uD79D]/,
+                'hi': /[\u0900-\u097F]/
+            };
+            
+            for (const [lang, pattern] of Object.entries(langPatterns)) {
+                if (pattern.test(text)) {
+                    return lang;
+                }
+            }
+            
+            return 'en'; // Default to English
+        }
+
+        // Translate with Local Argos Translate Server
+        async function translateWithArgosLocal(text, sourceLangValue, targetLangValue) {
+            // Update endpoint from input
+            localApiEndpoint = localApiUrlInput.value;
+            
+            try {
+                const response = await fetch(localApiEndpoint, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        q: text,
+                        source: sourceLangValue,
+                        target: targetLangValue
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.translatedText) {
+                    return { success: true, text: data.translatedText, api: 'Local Argos Translate' };
+                } else {
+                    throw new Error('Invalid response format from server');
+                }
+            } catch (error) {
+                console.error('Local Argos Translate error:', error);
+                return { 
+                    success: false, 
+                    error: error.message,
+                    api: 'Local Argos Translate'
+                };
+            }
+        }
+
+        // Translate with LibreTranslate (online)
+        async function translateWithLibreTranslate(text, sourceLangValue, targetLangValue) {
+            // Prepare request data
+            const requestData = {
+                q: text,
+                source: sourceLangValue,
+                target: targetLangValue,
+                format: 'text',
+                api_key: ''
+            };
+            
+            // Try each API endpoint until one works
+            let attempts = 0;
+            
+            while (attempts < TRANSLATE_API_URLS.length) {
+                try {
+                    const response = await fetch(TRANSLATE_API_URLS[currentApiIndex], {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(requestData)
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        return { 
+                            success: true, 
+                            text: data.translatedText, 
+                            api: `LibreTranslate (Server ${currentApiIndex + 1})` 
+                        };
+                    } else {
+                        // Try next API endpoint
+                        currentApiIndex = (currentApiIndex + 1) % TRANSLATE_API_URLS.length;
+                        attempts++;
+                    }
+                } catch (error) {
+                    // Try next API endpoint
+                    currentApiIndex = (currentApiIndex + 1) % TRANSLATE_API_URLS.length;
+                    attempts++;
+                }
+            }
+            
+            return { 
+                success: false, 
+                error: 'All LibreTranslate servers failed',
+                api: 'LibreTranslate'
+            };
+        }
+
+        // Test local API connection
+        async function testLocalApiConnection() {
+            const url = localApiUrlInput.value;
+            
+            testLocalApiBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
+            testLocalApiBtn.disabled = true;
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        q: 'Hello',
+                        source: 'en',
+                        target: 'es'
+                    })
+                });
+                
+                if (response.ok) {
+                    showToast('Local Argos Translate server is running!', 'success');
+                } else {
+                    throw new Error(`Server responded with ${response.status}`);
+                }
+            } catch (error) {
+                showToast(`Failed to connect: ${error.message}`, 'error');
+            } finally {
+                testLocalApiBtn.innerHTML = '<i class="fas fa-plug"></i> Test Connection';
+                testLocalApiBtn.disabled = false;
+            }
+        }
+
+        // Main translation function
+        async function translateText() {
+            const textToTranslate = sourceText.value.trim();
+            
+            if (textToTranslate === '') {
+                showToast('Please enter some text to translate.', 'error');
+                return;
+            }
+            
+            if (textToTranslate.length > 5000) {
+                showToast('Text is too long. Please limit to 5000 characters.', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const originalText = translateBtn.innerHTML;
+            translateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Translating...';
+            translateBtn.disabled = true;
+            
+            try {
+                let sourceLangValue = sourceLang.value;
+                
+                // Auto-detect language if selected
+                if (sourceLangValue === 'auto') {
+                    sourceLangValue = await detectLanguage(textToTranslate);
+                }
+                
+                const targetLangValue = targetLang.value;
+                
+                // Validate language codes
+                if (sourceLangValue === targetLangValue) {
+                    translatedText.value = textToTranslate;
+                    translatedCharCount.textContent = textToTranslate.length;
+                    showToast('Source and target languages are the same.', 'success');
+                    return;
+                }
+                
+                let result;
+                
+                // Choose translation method based on configuration
+                if (useLocalApi) {
+                    // Use local Argos Translate
+                    apiStatusText.textContent = 'Using Local Argos Translate...';
+                    apiStatusDot.className = 'status-dot status-local';
+                    
+                    result = await translateWithArgosLocal(textToTranslate, sourceLangValue, targetLangValue);
+                    
+                    if (result.success) {
+                        apiStatusText.textContent = result.api;
+                    } else {
+                        // Fallback to online API if local fails
+                        showToast('Local server failed, trying online API...', 'error');
+                        result = await translateWithLibreTranslate(textToTranslate, sourceLangValue, targetLangValue);
+                    }
+                } else {
+                    // Use online LibreTranslate
+                    apiStatusText.textContent = 'Using LibreTranslate API...';
+                    apiStatusDot.className = 'status-dot status-online';
+                    
+                    result = await translateWithLibreTranslate(textToTranslate, sourceLangValue, targetLangValue);
+                }
+                
+                if (result.success) {
+                    translatedText.value = result.text;
+                    translatedCharCount.textContent = result.text.length;
+                    
+                    // Update API status
+                    if (useLocalApi) {
+                        apiStatusDot.className = 'status-dot status-local';
+                    } else {
+                        apiStatusDot.className = 'status-dot status-online';
+                    }
+                    apiStatusText.textContent = result.api;
+                    
+                    showToast('Translation completed successfully!', 'success');
+                    isApiOnline = true;
+                } else {
+                    // All translation methods failed
+                    apiStatusDot.className = 'status-dot status-offline';
+                    apiStatusText.textContent = 'Translation service unavailable';
+                    isApiOnline = false;
+                    
+                    // Fallback: Show a placeholder translation
+                    translatedText.value = `[Failed to translate from ${sourceLang.options[sourceLang.selectedIndex].text} to ${targetLang.options[targetLang.selectedIndex].text}]: ${textToTranslate}`;
+                    translatedCharCount.textContent = translatedText.value.length;
+                    
+                    showToast('Translation service is temporarily unavailable.', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Translation error:', error);
+                showToast('An error occurred during translation. Please try again.', 'error');
+                
+                // Update API status
+                apiStatusDot.className = 'status-dot status-offline';
+                apiStatusText.textContent = 'Translation error';
+                isApiOnline = false;
+            } finally {
+                // Restore button
+                translateBtn.innerHTML = originalText;
+                translateBtn.disabled = false;
+            }
+        }
+
+        // Event Listeners
+        useLocalApiCheckbox.addEventListener('change', () => {
+            useLocalApi = useLocalApiCheckbox.checked;
+            if (useLocalApi) {
+                localApiConfig.classList.add('show');
+                apiStatusDot.className = 'status-dot status-local';
+                apiStatusText.textContent = 'Using Local Argos Translate';
+            } else {
+                localApiConfig.classList.remove('show');
+                apiStatusDot.className = 'status-dot status-online';
+                apiStatusText.textContent = 'Using LibreTranslate API';
+            }
+        });
+
+        testLocalApiBtn.addEventListener('click', testLocalApiConnection);
+        saveLocalConfigBtn.addEventListener('click', saveConfig);
+        translateBtn.addEventListener('click', translateText);
+        
+        showInstructionsBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            installationInstructions.classList.add('show');
+        });
+        
+        hideInstructionsBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            installationInstructions.classList.remove('show');
+        });
+
+        // Auto-translate on page load for demo
+        window.addEventListener('DOMContentLoaded', async () => {
+            // Load saved configuration
+            loadConfig();
+            
+            // Set a demo translation on load
+            sourceText.value = "Hello! Welcome to our Language Translator tool. This tool can translate between over 100 languages using a real translation API.";
+            sourceCharCount.textContent = sourceText.value.length;
+            
+            // Check API status
+            try {
+                const testResponse = await fetch(TRANSLATE_API_URLS[currentApiIndex], {
+                    method: 'HEAD',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                if (testResponse.ok) {
+                    if (useLocalApi) {
+                        apiStatusDot.className = 'status-dot status-local';
+                        apiStatusText.textContent = 'Using Local Argos Translate';
+                    } else {
+                        apiStatusDot.className = 'status-dot status-online';
+                        apiStatusText.textContent = `Using LibreTranslate API (Server ${currentApiIndex + 1})`;
+                    }
+                    isApiOnline = true;
+                    
+                    // Trigger translation after a short delay
+                    setTimeout(() => {
+                        translateBtn.click();
+                    }, 500);
+                } else {
+                    throw new Error('API not responding');
+                }
+            } catch (error) {
+                apiStatusDot.className = 'status-dot status-offline';
+                apiStatusText.textContent = 'Checking API availability...';
+                
+                // Try next API endpoint
+                currentApiIndex = (currentApiIndex + 1) % TRANSLATE_API_URLS.length;
+                
+                // Still try to translate
+                setTimeout(() => {
+                    translateBtn.click();
+                }, 500);
+            }
+        });
+
+        // Auto-translate when source text changes (with debounce)
+        let translateTimeout;
+        sourceText.addEventListener('input', () => {
+            clearTimeout(translateTimeout);
+            
+            // Only auto-translate if text is long enough
+            if (sourceText.value.trim().length > 3 && sourceText.value.trim().length < 100) {
+                translateTimeout = setTimeout(() => {
+                    if (isApiOnline) {
+                        translateText();
+                    }
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+  </html>
